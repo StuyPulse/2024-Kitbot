@@ -6,7 +6,11 @@
 package com.stuypulse.robot;
 
 import com.stuypulse.robot.commands.auton.DoNothingAuton;
+import com.stuypulse.robot.commands.drivetrain.DrivetrainDrive;
+import com.stuypulse.robot.commands.launcher.LauncherIntakeNote;
 import com.stuypulse.robot.constants.Ports;
+import com.stuypulse.robot.subsystems.Drivetrain;
+import com.stuypulse.robot.subsystems.Launcher;
 import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.stuylib.input.gamepads.AutoGamepad;
 
@@ -21,6 +25,8 @@ public class RobotContainer {
     public final Gamepad operator = new AutoGamepad(Ports.Gamepad.OPERATOR);
     
     // Subsystem
+    public final Drivetrain drivetrain = Drivetrain.getInstance();
+    public final Launcher launcher = Launcher.getInstance();
 
     // Autons
     private static SendableChooser<Command> autonChooser = new SendableChooser<>();
@@ -37,13 +43,17 @@ public class RobotContainer {
     /*** DEFAULTS ***/
     /****************/
 
-    private void configureDefaultCommands() {}
+    private void configureDefaultCommands() {
+        drivetrain.setDefaultCommand(new DrivetrainDrive(drivetrain, driver));
+    }
 
     /***************/
     /*** BUTTONS ***/
     /***************/
 
-    private void configureButtonBindings() {}
+    private void configureButtonBindings() {
+        //TODO: Add button bindings
+    }
 
     /**************/
     /*** AUTONS ***/

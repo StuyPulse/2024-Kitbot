@@ -12,4 +12,16 @@ public interface Ports {
         int OPERATOR = 1;
         int DEBUGGER = 2;
     }
+
+    public interface Drivetrain {
+        int LEFTREAR = 1;
+        int LEFTFRONT = 2;
+        int RIGHTREAR = 3;
+        int RIGHTFRONT = 4;
+    }
+
+    public interface Launcher {
+        int FEEDER = 5;
+        int LAUNCHER = 6;
+    }
 }
