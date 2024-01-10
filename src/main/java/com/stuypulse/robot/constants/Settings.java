@@ -16,19 +16,19 @@ import com.stuypulse.stuylib.network.SmartNumber;
  */
 public interface Settings {
     public interface Drivetrain {
-        int kCurrentLimit = 60;
+        int CURRENT_LIMIT = 60;
     }
 
     public interface Launcher {
-        int kLauncherCurrentLimit = 80;
-        int kFeedCurrentLimit = 80;
+        int LAUNCHER_CURRENT_LIMIT = 80;
+        int FEEDER_CURRENT_LIMIT = 80;
 
         // Speeds for wheels when intaking and launching. Intake speeds are negative to run the wheels
         // in reverse
-        double kLauncherSpeed = 1;
-        double kLaunchFeederSpeed = 1;
-        double kIntakeLauncherSpeed = -1;
-        double kIntakeFeederSpeed = -.2;
+        double LAUNCH_LAUNCHER_SPEED = 1;
+        double LAUNCH_FEEDER_SPEED = 1;
+        double INTAKE_LAUNCHER_SPEED = -1;
+        double INTAKE_FEEDER_SPEED = -.2;
 
         double kLauncherDelay = 1;
     }

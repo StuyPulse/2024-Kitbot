@@ -22,8 +22,8 @@ public class Launcher extends SubsystemBase{
         feeder = new CANSparkMax(Ports.Launcher.FEEDER, MotorType.kBrushed); 
         launcher = new CANSparkMax(Ports.Launcher.LAUNCHER, MotorType.kBrushed);
 
-        feeder.setSmartCurrentLimit(Settings.Launcher.kFeedCurrentLimit);
-        launcher.setSmartCurrentLimit(Settings.Launcher.kLauncherCurrentLimit);
+        feeder.setSmartCurrentLimit(Settings.Launcher.FEEDER_CURRENT_LIMIT);
+        launcher.setSmartCurrentLimit(Settings.Launcher.LAUNCHER_CURRENT_LIMIT);
     }
 
     //********** SETTERS **********
@@ -40,14 +40,14 @@ public class Launcher extends SubsystemBase{
         setFeederSpeed(0);
     }
 
-    public void launch() {
-        launcher.set(Settings.Launcher.kLauncherSpeed);
-        feeder.set(Settings.Launcher.kLaunchFeederSpeed);
+    public void intake() {
+        launcher.set(Settings.Launcher.INTAKE_LAUNCHER_SPEED);
+        feeder.set(Settings.Launcher.INTAKE_FEEDER_SPEED);
     }
 
-    public void intake() {
-        launcher.set(Settings.Launcher.kIntakeLauncherSpeed);
-        feeder.set(Settings.Launcher.kIntakeFeederSpeed);
+    public void launch() {
+        launcher.set(Settings.Launcher.LAUNCH_LAUNCHER_SPEED);
+        feeder.set(Settings.Launcher.LAUNCH_FEEDER_SPEED);
     }
 
     //********** GETTERS **********

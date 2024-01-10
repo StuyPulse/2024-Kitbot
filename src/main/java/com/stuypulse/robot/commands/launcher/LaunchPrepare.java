@@ -18,6 +18,6 @@ public class LaunchPrepare extends InstantCommand {
     
     @Override
     public void initialize() {
-        launcher.setLaunchSpeed(Settings.Launcher.kLauncherSpeed);
+        launcher.setLaunchSpeed(Settings.Launcher.LAUNCH_LAUNCHER_SPEED);
     } 
 }
