@@ -8,6 +8,8 @@ package com.stuypulse.robot.constants;
 import com.stuypulse.stuylib.network.SmartBoolean;
 import com.stuypulse.stuylib.network.SmartNumber;
 
+import edu.wpi.first.math.util.Units;
+
 /*-
  * File containing tunable settings for every subsystem on the robot.
  *
@@ -17,6 +19,9 @@ import com.stuypulse.stuylib.network.SmartNumber;
 public interface Settings {
     public interface Drivetrain {
         int CURRENT_LIMIT = 60;
+
+        //TODO: ask rain for true track width currently using cad with +-0.1
+        double TRACK_WIDTH = Units.inchesToMeters(23.83); 
     }
 
     public interface Launcher {
