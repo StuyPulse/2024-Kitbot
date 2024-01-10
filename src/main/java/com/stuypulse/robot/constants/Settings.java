@@ -16,7 +16,7 @@ import com.stuypulse.stuylib.network.SmartNumber;
  */
 public interface Settings {
     public interface Drivetrain {
-        int CURRENT_LIMIT = 60;
+        
     }
 
     public interface Launcher {
