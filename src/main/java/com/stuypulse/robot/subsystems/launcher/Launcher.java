@@ -3,27 +3,33 @@ package com.stuypulse.robot.subsystems.launcher;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.robot.constants.Ports;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Launcher extends SubsystemBase{
-    private static Launcher instance = new Launcher();
+
+    private static final Launcher instance;
+
+    static {
+        instance = new Launcher();
+    }
 
     public static Launcher getInstance() {
         return instance;
     }
 
-    CANSparkMax feeder;
-    CANSparkMax launcher;
+    private final CANSparkMax feeder;
+    private final CANSparkMax launcher;
     
     public Launcher() {
         feeder = new CANSparkMax(Ports.Launcher.FEEDER, MotorType.kBrushed); 
         launcher = new CANSparkMax(Ports.Launcher.LAUNCHER, MotorType.kBrushed);
 
-        feeder.setSmartCurrentLimit(Settings.Launcher.FEEDER_CURRENT_LIMIT);
-        launcher.setSmartCurrentLimit(Settings.Launcher.LAUNCHER_CURRENT_LIMIT);
+        Motors.Launcher.LAUNCHER.configure(launcher);
+        Motors.Launcher.FEEDER.configure(feeder);
     }
 
     //********** SETTERS **********
@@ -69,10 +75,10 @@ public class Launcher extends SubsystemBase{
 
     @Override 
     public void periodic() {
-        SmartDashboard.putNumber("Launcher/ Launcher Speed", getLauncherSpeed());
-        SmartDashboard.putNumber("Launcher/ Feeder Speed", getFeederSpeed());
-        SmartDashboard.putNumber("Launcher/ Launcher Voltage", getLauncherVoltage());
-        SmartDashboard.putNumber("Launcher/ Feeder Voltage", getFeederVoltage());
+        SmartDashboard.putNumber("Launcher/Launcher Speed", getLauncherSpeed());
+        SmartDashboard.putNumber("Launcher/Feeder Speed", getFeederSpeed());
+        SmartDashboard.putNumber("Launcher/Launcher Voltage", getLauncherVoltage());
+        SmartDashboard.putNumber("Launcher/Feeder Voltage", getFeederVoltage());
 
     }
 }

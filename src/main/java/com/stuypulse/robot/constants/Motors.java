@@ -8,6 +8,7 @@ package com.stuypulse.robot.constants;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkMax;
 import static com.revrobotics.CANSparkMax.IdleMode;
 
@@ -25,6 +26,11 @@ public interface Motors {
     public interface Drivetrain {
         CANSparkMaxConfig LEFT = new CANSparkMaxConfig(false, IdleMode.kBrake, 60);
         CANSparkMaxConfig RIGHT = new CANSparkMaxConfig(true, IdleMode.kBrake, 60);
+    }
+
+    public interface Launcher {
+        CANSparkMaxConfig LAUNCHER = new CANSparkMaxConfig(false, IdleMode.kCoast, 80);
+        CANSparkMaxConfig FEEDER = new CANSparkMaxConfig(false, IdleMode.kCoast, 80);
     }
 
     /** Classes to store all of the values a motor needs */

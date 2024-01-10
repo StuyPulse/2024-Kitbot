@@ -18,16 +18,11 @@ import edu.wpi.first.math.util.Units;
  */
 public interface Settings {
     public interface Drivetrain {
-        int CURRENT_LIMIT = 60;
-
         //TODO: ask rain for true track width currently using cad with +-0.1
-        double TRACK_WIDTH = Units.inchesToMeters(23.83); 
+        double TRACK_WIDTH = Units.inchesToMeters(23.83);
     }
 
     public interface Launcher {
-        int LAUNCHER_CURRENT_LIMIT = 80;
-        int FEEDER_CURRENT_LIMIT = 80;
-
         // Speeds for wheels when intaking and launching. Intake speeds are negative to run the wheels
         // in reverse
         double LAUNCH_LAUNCHER_SPEED = 1;

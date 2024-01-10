@@ -1,82 +1,58 @@
 package com.stuypulse.robot.subsystems.drivetrain;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.robot.constants.Ports;
-import com.stuypulse.robot.constants.Settings;
-import com.stuypulse.stuylib.math.Angle;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Drivetrain extends SubsystemBase{
-    private static Drivetrain instance = new Drivetrain();
+public class Drivetrain extends SubsystemBase {
+
+    private static final Drivetrain instance;
+
+    static {
+        instance = new Drivetrain();
+    }
 
     public static Drivetrain getInstance() {
         return instance;
     }
 
-    private DifferentialDrive drivetrain;
+    private final DifferentialDrive drivetrain;
 
-    CANSparkMax leftFront;
-    CANSparkMax leftBack;
-    CANSparkMax rightFront;
-    CANSparkMax rightBack;
-
-    RelativeEncoder leftEncoder;
-    RelativeEncoder rightEncoder;
+    private final CANSparkMax leftFront;
+    private final CANSparkMax leftBack;
+    private final CANSparkMax rightFront;
+    private final CANSparkMax rightBack;
 
     public Drivetrain() {
         leftFront = new CANSparkMax(Ports.Drivetrain.LEFTFRONT, MotorType.kBrushed);
-        leftBack = new CANSparkMax(Ports.Drivetrain.LEFTFRONT, MotorType.kBrushed);
-        rightFront = new CANSparkMax(Ports.Drivetrain.LEFTFRONT, MotorType.kBrushed);
-        rightBack = new CANSparkMax(Ports.Drivetrain.LEFTFRONT, MotorType.kBrushed);
+        leftBack = new CANSparkMax(Ports.Drivetrain.LEFTREAR, MotorType.kBrushed);
+        rightFront = new CANSparkMax(Ports.Drivetrain.RIGHTFRONT, MotorType.kBrushed);
+        rightBack = new CANSparkMax(Ports.Drivetrain.RIGHTREAR, MotorType.kBrushed);
+
+        Motors.Drivetrain.LEFT.configure(leftFront);
+        Motors.Drivetrain.LEFT.configure(leftBack);
+
+        Motors.Drivetrain.RIGHT.configure(rightFront);
+        Motors.Drivetrain.RIGHT.configure(rightBack);
    
         leftBack.follow(leftFront);
         rightBack.follow(rightFront);
         
-        leftFront.setInverted(true);
-        rightFront.setInverted(false);
-
-        leftFront.setSmartCurrentLimit(Settings.Drivetrain.CURRENT_LIMIT);
-        leftBack.setSmartCurrentLimit(Settings.Drivetrain.CURRENT_LIMIT);
-        rightFront.setSmartCurrentLimit(Settings.Drivetrain.CURRENT_LIMIT);
-        leftBack.setSmartCurrentLimit(Settings.Drivetrain.CURRENT_LIMIT);
-        
-        leftEncoder = leftFront.getEncoder();
-        rightEncoder = rightFront.getEncoder();
-        resetEncoders();
-
         drivetrain = new DifferentialDrive(leftFront, rightFront);
     }
 
-    //********** GETTERS **********
-    // Distance
-    public double getLeftDistance() {
-        return leftEncoder.getPosition();
+    //********** GETTERS **********//
+    public double getLeftSpeed() {
+        return leftFront.getEncoder().getVelocity();
     }
 
-    public double getRightDistance() {
-        return rightEncoder.getPosition();
-    }
-
-    public double getDistance() {
-        return (getLeftDistance() + getRightDistance()) / 2.0;
-    }
-
-    // Velocity
-    public double getLeftVelocity() {
-        return leftEncoder.getVelocity();
-    }
-
-    public double getRightVelocity() {
-        return rightEncoder.getVelocity();
-    }
-
-    public double getVelocity() {
-        return (getLeftVelocity() + getRightVelocity()) / 2.0;
+    public double getRightSpeed() {
+        return rightFront.getEncoder().getVelocity();
     }
 
     public double getLeftVoltage() {
@@ -87,21 +63,15 @@ public class Drivetrain extends SubsystemBase{
         return rightFront.getAppliedOutput();
     }
 
-    private double getRawEncoderAngle() {
-        double distance = getLeftDistance() - getRightDistance();
-        return Math.toDegrees(distance / Settings.Drivetrain.TRACK_WIDTH);
+    public double getLeftDistance() {
+        return leftFront.getEncoder().getPosition();
     }
 
-    public Angle getAngle() {
-        return Angle.fromDegrees(getRawEncoderAngle());
+    public double getRightDistance() {
+        return rightFront.getEncoder().getPosition();
     }
 
-    public void resetEncoders() {
-        leftEncoder.setPosition(0.0);
-        rightEncoder.setPosition(0.0);
-    }
-
-    //********** Drive Methods **********
+    //********** Drive Methods **********//
     public void tankDrive(double leftSpeed, double rightSpeed) {
         drivetrain.tankDrive(leftSpeed, rightSpeed);
     }
@@ -120,19 +90,9 @@ public class Drivetrain extends SubsystemBase{
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Drivetrain/ Left Velocity (m per s)", getLeftVelocity());
-        SmartDashboard.putNumber("Drivetrain/ Right Velocity (m per s)", getRightVelocity());
-
-        SmartDashboard.putNumber("Drivetrain/ Left Distance (m)", getLeftDistance());
-        SmartDashboard.putNumber("Drivetrain/ Right Distance (m)", getRightDistance());
-
-        SmartDashboard.putNumber("Drivetrain/ Angle (deg)", getAngle().toDegrees());
-
-
-        SmartDashboard.putNumber("Drivetrain/ Left Voltage (V)", getLeftVoltage());
-        SmartDashboard.putNumber("Drivetrain/ Right Voltage (V)", getRightVoltage());
-
+        SmartDashboard.putNumber("Drivetrain/Left Speed", getLeftSpeed());
+        SmartDashboard.putNumber("Drivetrain/Right Speed", getRightSpeed());
+        SmartDashboard.putNumber("Drivetrain/Left Voltage", getLeftVoltage());
+        SmartDashboard.putNumber("Drivetrain/Right Voltage", getRightVoltage());
     }
-
-   
 }
