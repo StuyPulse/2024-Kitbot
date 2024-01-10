@@ -1,7 +1,7 @@
 package com.stuypulse.robot.commands.launcher;
 
 import com.stuypulse.robot.constants.Settings;
-import com.stuypulse.robot.subsystems.Launcher;
+import com.stuypulse.robot.subsystems.launcher.Launcher;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 

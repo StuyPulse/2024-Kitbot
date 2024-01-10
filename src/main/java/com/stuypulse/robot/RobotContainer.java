@@ -7,10 +7,12 @@ package com.stuypulse.robot;
 
 import com.stuypulse.robot.commands.auton.DoNothingAuton;
 import com.stuypulse.robot.commands.drivetrain.DrivetrainDrive;
+import com.stuypulse.robot.commands.launcher.LaunchPrepare;
 import com.stuypulse.robot.commands.launcher.LauncherIntakeNote;
+import com.stuypulse.robot.commands.launcher.LauncherStop;
 import com.stuypulse.robot.constants.Ports;
-import com.stuypulse.robot.subsystems.Drivetrain;
-import com.stuypulse.robot.subsystems.Launcher;
+import com.stuypulse.robot.subsystems.drivetrain.Drivetrain;
+import com.stuypulse.robot.subsystems.launcher.Launcher;
 import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.stuylib.input.gamepads.AutoGamepad;
 
@@ -52,7 +54,14 @@ public class RobotContainer {
     /***************/
 
     private void configureButtonBindings() {
-        //TODO: Add button bindings
+        operator.getLeftBumper()
+            .onTrue(new LauncherIntakeNote())
+            .onFalse(new LauncherStop());
+    
+        operator.getRightBumper()
+            .onTrue(new LaunchPrepare())
+            .whileTrue(new LauncherIntakeNote())
+            .onFalse(new LauncherStop());
     }
 
     /**************/

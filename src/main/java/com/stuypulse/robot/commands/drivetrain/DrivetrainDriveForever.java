@@ -5,7 +5,7 @@
 
 package com.stuypulse.robot.commands.drivetrain;
 
-import com.stuypulse.robot.subsystems.Drivetrain;
+import com.stuypulse.robot.subsystems.drivetrain.Drivetrain;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
