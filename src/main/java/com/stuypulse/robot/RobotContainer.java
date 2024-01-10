@@ -10,12 +10,14 @@ import com.stuypulse.robot.commands.drivetrain.DrivetrainDrive;
 import com.stuypulse.robot.commands.launcher.LaunchPrepare;
 import com.stuypulse.robot.commands.launcher.LauncherIntakeNote;
 import com.stuypulse.robot.commands.launcher.LauncherStop;
+import com.stuypulse.robot.commands.odometry.OdometryRealign;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.subsystems.drivetrain.Drivetrain;
 import com.stuypulse.robot.subsystems.launcher.Launcher;
 import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.stuylib.input.gamepads.AutoGamepad;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -54,6 +56,11 @@ public class RobotContainer {
     /***************/
 
     private void configureButtonBindings() {
+        configureDriverBindings();
+        configureOperatorBindings();
+    }
+
+    private void configureDriverBindings() {
         operator.getLeftBumper()
             .onTrue(new LauncherIntakeNote())
             .onFalse(new LauncherStop());
@@ -62,6 +69,14 @@ public class RobotContainer {
             .onTrue(new LaunchPrepare())
             .whileTrue(new LauncherIntakeNote())
             .onFalse(new LauncherStop());
+    }
+
+    private void configureOperatorBindings() {
+        // odometry
+        driver.getDPadUp().onTrue(new OdometryRealign(Rotation2d.fromDegrees(180)));
+        driver.getDPadLeft().onTrue(new OdometryRealign(Rotation2d.fromDegrees(-90)));
+        driver.getDPadDown().onTrue(new OdometryRealign(Rotation2d.fromDegrees(0)));
+        driver.getDPadRight().onTrue(new OdometryRealign(Rotation2d.fromDegrees(90)));
     }
 
     /**************/
