@@ -6,7 +6,6 @@
 package com.stuypulse.robot.commands.drivetrain;
 
 import com.stuypulse.robot.subsystems.drivetrain.AbstractDrivetrain;
-import com.stuypulse.robot.subsystems.drivetrain.Drivetrain;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -23,6 +22,11 @@ public class DrivetrainDriveForever extends Command {
 
     @Override
     public void initialize() {
+        drivetrain.tankDriveVolts(speed, speed);
+    }
+
+    @Override
+    public void execute() {
         drivetrain.tankDriveVolts(speed, speed);
     }
 }

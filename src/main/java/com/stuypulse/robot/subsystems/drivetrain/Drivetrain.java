@@ -4,6 +4,8 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.robot.constants.Ports;
+import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.stuylib.math.Angle;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -44,6 +46,10 @@ public class Drivetrain extends AbstractDrivetrain {
         return rightFront.getEncoder().getVelocity();
     }
 
+    public double getVelocity() {
+        return (getLeftSpeed() + getRightSpeed()) / 2.0;
+    }
+
     public double getLeftVoltage() {
         return leftFront.getAppliedOutput();
     }
@@ -60,6 +66,14 @@ public class Drivetrain extends AbstractDrivetrain {
         return rightFront.getEncoder().getPosition();
     }
 
+    public double getDistance() {
+        return (getLeftDistance() + getRightDistance()) / 2.0;
+    } 
+
+    public Angle getAngle() {
+        return Angle.fromDegrees(Math.toDegrees(getLeftDistance() - getRightDistance() / Settings.Drivetrain.TRACK_WIDTH));
+    }
+    
     //********** Drive Methods **********//
     public void tankDriveVolts(double leftVolts, double rightVolts) {
         leftFront.setVoltage(leftVolts);

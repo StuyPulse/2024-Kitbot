@@ -7,7 +7,6 @@ package com.stuypulse.robot;
 
 import com.stuypulse.robot.commands.auton.DoNothingAuton;
 import com.stuypulse.robot.commands.drivetrain.DriveDrive;
-import com.stuypulse.robot.commands.drivetrain.DrivetrainDrive;
 import com.stuypulse.robot.commands.drivetrain.DrivetrainDriveForever;
 import com.stuypulse.robot.commands.launcher.LaunchPrepare;
 import com.stuypulse.robot.commands.launcher.LauncherIntakeNote;
@@ -15,16 +14,12 @@ import com.stuypulse.robot.commands.launcher.LauncherStop;
 import com.stuypulse.robot.commands.odometry.OdometryRealign;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.subsystems.drivetrain.AbstractDrivetrain;
-import com.stuypulse.robot.subsystems.drivetrain.Drivetrain;
-import com.stuypulse.robot.subsystems.drivetrain.DrivetrainSim;
 import com.stuypulse.robot.subsystems.launcher.Launcher;
 import com.stuypulse.robot.subsystems.odometry.AbstractOdometry;
 import com.stuypulse.robot.subsystems.vision.AbstractVision;
 import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.stuylib.input.gamepads.AutoGamepad;
 
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;

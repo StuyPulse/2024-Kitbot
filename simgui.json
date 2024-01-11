@@ -23,13 +23,7 @@
   "NetworkTables": {
     "transitory": {
       "SmartDashboard": {
-        "Autonomous": {
-          "open": true
-        },
         "Sim Field": {
-          "open": true
-        },
-        "SimDrivetrain": {
           "open": true
         },
         "open": true
