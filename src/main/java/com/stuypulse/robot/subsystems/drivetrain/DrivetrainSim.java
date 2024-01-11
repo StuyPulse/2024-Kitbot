@@ -1,9 +1,11 @@
 package com.stuypulse.robot.subsystems.drivetrain;
 import com.stuypulse.robot.constants.Settings.Drivetrain;
+import com.stuypulse.robot.constants.Settings.Drivetrain.*;
 import com.stuypulse.stuylib.math.Angle;
 
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.wpilibj.simulation.RoboRioSim;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -14,15 +16,31 @@ public class DrivetrainSim extends AbstractDrivetrain{
     private final Field2d field;
 
     public DrivetrainSim() {
-        this.sim = new DifferentialDrivetrainSim(
-            DCMotor.getNEO(2),
-            Drivetrain.GEARING, 
-            Drivetrain.J_KG_METER_SQUARED, 
-            Drivetrain.MASS_Kg,
-            Drivetrain.WHEEL_RADIUS,
-            Drivetrain.TRACK_WIDTH, 
+        // this.sim = new DifferentialDrivetrainSim(
+        //     DCMotor.getNEO(2),
+        //     Drivetrain.GEARING, 
+        //     Drivetrain.J_KG_METER_SQUARED, 
+        //     Drivetrain.MASS_Kg,
+        //     Drivetrain.WHEEL_RADIUS,
+        //     Drivetrain.TRACK_WIDTH, 
+        //     VecBuilder.fill(0, 0, 0, 0, 0, 0, 0)
+        // );
+        sim = new DifferentialDrivetrainSim(
+            LinearSystemId.identifyDrivetrainSystem(
+                Feedforward.kV,                        // linear velocity gain
+                Feedforward.kA,                        // linear acceleration gain
+                Feedforward.kVAngular,                 // angular velocity gain
+                Feedforward.kAAngular,                 // angular acceleration gain
+                Drivetrain.TRACK_WIDTH                            // track width of the drivetrain
+            ),
+            DCMotor.getNEO(6), 
+            Drivetrain.GEARING,                 
+            Drivetrain.TRACK_WIDTH,                
+            Drivetrain.WHEEL_RADIUS,               
+
+            // give the drivetrain measurement noise (none in this example)
             VecBuilder.fill(0, 0, 0, 0, 0, 0, 0)
-        );
+		);
 
         this.field = new Field2d();
         SmartDashboard.putData("Sim Field", field);
@@ -81,6 +99,8 @@ public class DrivetrainSim extends AbstractDrivetrain{
 
         SmartDashboard.putNumber("SimDrivetrain/Left Distance", getLeftDistance());
         SmartDashboard.putNumber("SimDrivetrain/Right Distance", getRightDistance());
+        SmartDashboard.putNumber("SimDrivetrain/Distance", getDistance());
+        
     }
 
 }

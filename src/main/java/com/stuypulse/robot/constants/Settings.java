@@ -24,6 +24,14 @@ public interface Settings {
         double MASS_Kg = Units.lbsToKilograms(32.5462411);
         double GEARING = 8.45;
         double J_KG_METER_SQUARED = 7.19537;
+        
+        public interface Feedforward {
+            double kV = 1.6658;
+            double kA = 0.4515;
+
+            double kVAngular = 6.34 / 5.0;
+            double kAAngular = 1.35 / 5.0;
+        }
     }
 
     public interface Launcher {

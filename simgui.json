@@ -26,6 +26,9 @@
         "Sim Field": {
           "open": true
         },
+        "SimDrivetrain": {
+          "open": true
+        },
         "open": true
       }
     }
