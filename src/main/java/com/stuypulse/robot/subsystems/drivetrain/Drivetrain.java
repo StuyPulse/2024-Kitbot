@@ -7,20 +7,8 @@ import com.stuypulse.robot.constants.Ports;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Drivetrain extends SubsystemBase {
-
-    private static final Drivetrain instance;
-
-    static {
-        instance = new Drivetrain();
-    }
-
-    public static Drivetrain getInstance() {
-        return instance;
-    }
-
+public class Drivetrain extends AbstractDrivetrain {
     private final DifferentialDrive drivetrain;
 
     private final CANSparkMax leftFront;
@@ -29,10 +17,11 @@ public class Drivetrain extends SubsystemBase {
     private final CANSparkMax rightBack;
 
     public Drivetrain() {
-        leftFront = new CANSparkMax(Ports.Drivetrain.LEFTFRONT, MotorType.kBrushed);
-        leftBack = new CANSparkMax(Ports.Drivetrain.LEFTREAR, MotorType.kBrushed);
-        rightFront = new CANSparkMax(Ports.Drivetrain.RIGHTFRONT, MotorType.kBrushed);
-        rightBack = new CANSparkMax(Ports.Drivetrain.RIGHTREAR, MotorType.kBrushed);
+        //TODO: changed to brushless for simulation
+        leftFront = new CANSparkMax(Ports.Drivetrain.LEFTFRONT, MotorType.kBrushless);
+        leftBack = new CANSparkMax(Ports.Drivetrain.LEFTREAR, MotorType.kBrushless);
+        rightFront = new CANSparkMax(Ports.Drivetrain.RIGHTFRONT, MotorType.kBrushless);
+        rightBack = new CANSparkMax(Ports.Drivetrain.RIGHTREAR, MotorType.kBrushless);
 
         Motors.Drivetrain.LEFT.configure(leftFront);
         Motors.Drivetrain.LEFT.configure(leftBack);
@@ -72,6 +61,12 @@ public class Drivetrain extends SubsystemBase {
     }
 
     //********** Drive Methods **********//
+    public void tankDriveVolts(double leftVolts, double rightVolts) {
+        leftFront.setVoltage(leftVolts);
+        rightFront.setVoltage(-rightVolts);
+        drivetrain.feed();
+    }
+
     public void tankDrive(double leftSpeed, double rightSpeed) {
         drivetrain.tankDrive(leftSpeed, rightSpeed);
     }
@@ -89,7 +84,7 @@ public class Drivetrain extends SubsystemBase {
     }
 
     @Override
-    public void periodic() {
+    public void periodicChild() {
         SmartDashboard.putNumber("Drivetrain/Left Speed", getLeftSpeed());
         SmartDashboard.putNumber("Drivetrain/Right Speed", getRightSpeed());
         SmartDashboard.putNumber("Drivetrain/Left Voltage", getLeftVoltage());

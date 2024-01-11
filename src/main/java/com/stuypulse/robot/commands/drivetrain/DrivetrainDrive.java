@@ -1,14 +1,17 @@
 package com.stuypulse.robot.commands.drivetrain;
 
+import com.stuypulse.robot.subsystems.drivetrain.AbstractDrivetrain;
 import com.stuypulse.robot.subsystems.drivetrain.Drivetrain;
+import com.stuypulse.robot.subsystems.drivetrain.DrivetrainSim;
 import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.stuylib.math.SLMath;
 import com.stuypulse.stuylib.streams.numbers.IStream;
 
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class DrivetrainDrive extends Command {
-    public final Drivetrain drivetrain;
+    public final AbstractDrivetrain drivetrain;
     private final Gamepad driver;
 
     double rightSpeed;
@@ -17,8 +20,14 @@ public class DrivetrainDrive extends Command {
     private final IStream speed;
     private final IStream angle;
 
-    public DrivetrainDrive(Drivetrain drivetrain, Gamepad driver) {
-        this.drivetrain = drivetrain;
+    public DrivetrainDrive(Gamepad driver) {
+        if (RobotBase.isReal()) {
+            this.drivetrain = AbstractDrivetrain.getInstance();
+        }
+        else {
+            this.drivetrain = new DrivetrainSim();
+        }
+
         this.driver = driver;
 
         this.speed = IStream.create(

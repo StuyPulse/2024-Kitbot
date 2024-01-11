@@ -5,23 +5,24 @@
 
 package com.stuypulse.robot.commands.drivetrain;
 
+import com.stuypulse.robot.subsystems.drivetrain.AbstractDrivetrain;
 import com.stuypulse.robot.subsystems.drivetrain.Drivetrain;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class DrivetrainDriveForever extends Command {
-    private final Drivetrain drivetrain;
+    private final AbstractDrivetrain drivetrain;
     private final double speed;
 
-    public DrivetrainDriveForever(Drivetrain drivetrain, double speed) {
-        this.drivetrain = drivetrain;
+    public DrivetrainDriveForever(double speed) {
+        this.drivetrain = AbstractDrivetrain.getInstance();
         this.speed = speed;
 
         addRequirements(drivetrain);
     }
 
     @Override
-    public void execute() {
-        drivetrain.curvatureDrive(speed, 0, false);
+    public void initialize() {
+        drivetrain.tankDriveVolts(speed, speed);
     }
 }

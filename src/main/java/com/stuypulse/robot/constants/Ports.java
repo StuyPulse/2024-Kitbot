@@ -14,14 +14,14 @@ public interface Ports {
     }
 
     public interface Drivetrain {
-        int LEFTREAR = 1;
-        int LEFTFRONT = 2;
-        int RIGHTREAR = 3;
-        int RIGHTFRONT = 4;
+        int LEFTREAR = 10;
+        int LEFTFRONT = 11;
+        int RIGHTFRONT = 12;
+        int RIGHTREAR = 13;
     }
 
     public interface Launcher {
-        int FEEDER = 5;
-        int LAUNCHER = 6;
+        int FEEDER = 20;
+        int LAUNCHER = 21;
     }
 }
