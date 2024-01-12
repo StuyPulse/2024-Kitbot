@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 public class DrivetrainDrive extends Command {
     public final AbstractDrivetrain drivetrain;
-    private final Gamepad driver;
 
     double rightSpeed;
     double leftSpeed;
@@ -19,7 +18,6 @@ public class DrivetrainDrive extends Command {
 
     public DrivetrainDrive(Gamepad driver) {
         this.drivetrain = AbstractDrivetrain.getInstance();
-        this.driver = driver;
 
         this.speed = IStream.create(
             () -> driver.getRightY() - driver.getLeftY())
@@ -41,8 +39,6 @@ public class DrivetrainDrive extends Command {
 
     @Override
     public void execute() {
-        if (driver.getRawLeftButton() || driver.getRawRightButton()) {
-            drivetrain.arcadeDrive(speed.get(), angle.get());
-        }  
+        drivetrain.arcadeDrive(speed.get(), angle.get());
     }
 }

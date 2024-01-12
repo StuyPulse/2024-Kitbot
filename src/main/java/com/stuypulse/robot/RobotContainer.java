@@ -33,7 +33,7 @@ public class RobotContainer {
     
     // Subsystem
     public final AbstractDrivetrain drivetrain = AbstractDrivetrain.getInstance();
-    public final Launcher launcher = Launcher.getInstance();
+    // public final Launcher launcher = Launcher.getInstance();
     //public final AbstractOdometry odometry = AbstractOdometry.getInstance();
     //public final AbstractVision vision = AbstractVision.getInstance();
 
@@ -54,7 +54,6 @@ public class RobotContainer {
 
     private void configureDefaultCommands() {
         drivetrain.setDefaultCommand(new DrivetrainDrive(driver));
-        //drivetrain.setDefaultCommand(new DriveDrive(drivetrain, driver));
     }
 
     /***************/
