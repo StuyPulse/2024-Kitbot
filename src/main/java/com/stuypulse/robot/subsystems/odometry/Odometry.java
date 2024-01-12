@@ -6,6 +6,7 @@ import com.stuypulse.robot.util.Fiducial;
 import com.stuypulse.robot.util.VisionData;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.FieldObject2d;
@@ -20,13 +21,22 @@ public class Odometry extends AbstractOdometry {
     private final FieldObject2d odometryPose2D;
 
     public Odometry() {
-        this.drivetrain = Drivetrain.getInstance();
+        this.drivetrain = new Drivetrain();
         this.odometry = new DifferentialDriveOdometry(getRotation(), drivetrain.getLeftDistance(), drivetrain.getRightDistance());
         resetOdometery(new Pose2d());
 
         this.field = new Field2d();
         this.odometryPose2D = field.getObject("Odometry Pose");
         SmartDashboard.putData("Field", field);
+    }
+
+    public final Rotation2d getRotation() {
+        if (this.odometry == null) {
+            return new Rotation2d();
+        }
+        else {
+            return this.odometry.getPoseMeters().getRotation();
+        }
     }
 
     @Override
@@ -42,12 +52,12 @@ public class Odometry extends AbstractOdometry {
 
     @Override 
     public void updateOdometry() {
-        odometry.update(getRotation(), drivetrain.getLeftDistance(), drivetrain.getRightDistance());
+       //odometry.update(getRotation(), drivetrain.getLeftDistance(), drivetrain.getRightDistance());
     }
 
     @Override
     public void resetOdometery(Pose2d pose2d) {
-        odometry.resetPosition(getRotation(), drivetrain.getLeftDistance(), drivetrain.getRightDistance(), pose2d);
+        //odometry.resetPosition(getRotation(), drivetrain.getLeftDistance(), drivetrain.getRightDistance(), pose2d);
     }
 
     @Override

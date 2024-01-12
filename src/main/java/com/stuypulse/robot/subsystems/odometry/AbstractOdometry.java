@@ -32,7 +32,5 @@ public abstract class AbstractOdometry extends SubsystemBase {
         return getPose().getTranslation();
     }
 
-    public final Rotation2d getRotation() {
-        return getPose().getRotation();
-    }
+    public abstract Rotation2d getRotation();
 }

@@ -1,6 +1,6 @@
 package com.stuypulse.robot.commands.drivetrain;
 
-import com.stuypulse.robot.subsystems.drivetrain.Drivetrain;
+import com.stuypulse.robot.subsystems.drivetrain.AbstractDrivetrain;
 import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.stuylib.math.SLMath;
 import com.stuypulse.stuylib.streams.numbers.IStream;
@@ -8,8 +8,7 @@ import com.stuypulse.stuylib.streams.numbers.IStream;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class DrivetrainDrive extends Command {
-    public final Drivetrain drivetrain;
-    private final Gamepad driver;
+    public final AbstractDrivetrain drivetrain;
 
     double rightSpeed;
     double leftSpeed;
@@ -17,9 +16,8 @@ public class DrivetrainDrive extends Command {
     private final IStream speed;
     private final IStream angle;
 
-    public DrivetrainDrive(Drivetrain drivetrain, Gamepad driver) {
-        this.drivetrain = drivetrain;
-        this.driver = driver;
+    public DrivetrainDrive(Gamepad driver) {
+        this.drivetrain = AbstractDrivetrain.getInstance();
 
         this.speed = IStream.create(
             () -> driver.getRightY() - driver.getLeftY())
@@ -41,9 +39,6 @@ public class DrivetrainDrive extends Command {
 
     @Override
     public void execute() {
-        if (driver.getRawLeftButton() || driver.getRawRightButton()) {
-            drivetrain.curvatureDrive(speed.get(), angle.get(), true);
-        }
-        else drivetrain.stop();        
+        drivetrain.arcadeDrive(speed.get(), angle.get());
     }
 }
