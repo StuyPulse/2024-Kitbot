@@ -7,6 +7,7 @@ import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.stuylib.math.Angle;
 
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -83,6 +84,11 @@ public class Drivetrain extends AbstractDrivetrain {
 
     public void tankDrive(double leftSpeed, double rightSpeed) {
         drivetrain.tankDrive(leftSpeed, rightSpeed);
+    }
+
+    public void chassisSpeedsDrive(ChassisSpeeds speeds) {
+        arcadeDrive(speeds.vxMetersPerSecond, speeds.omegaRadiansPerSecond * Settings.Drivetrain.TRACK_WIDTH);
+      
     }
 
     public void arcadeDrive(double speed, double rotation) {

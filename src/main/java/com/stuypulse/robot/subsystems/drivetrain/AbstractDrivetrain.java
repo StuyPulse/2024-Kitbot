@@ -1,7 +1,9 @@
 package com.stuypulse.robot.subsystems.drivetrain;
 
+import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.stuylib.math.Angle;
 
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -31,13 +33,20 @@ public abstract class AbstractDrivetrain extends SubsystemBase {
         return new DifferentialDriveWheelSpeeds(getLeftVelocity(), getRightVelocity());
     }
 
+    public ChassisSpeeds getChassisSpeeds() {
+        return new ChassisSpeeds(getVelocity(), 0, getVelocity() / Settings.Drivetrain.TRACK_WIDTH);
+    }
+
     public abstract double getVelocity();
 
     public abstract Angle getAngle();
 
     public abstract void tankDriveVolts(double leftVolts, double rightVolts);
+
+    public abstract void chassisSpeedsDrive(ChassisSpeeds speeds);
+    
     public abstract void arcadeDrive(double speed, double angle);
-    // public abstract void curvatureDrive(double speed, double angle, boolean isQuickTurn);
+  
     public abstract void stop();
 
     public abstract void periodicChild();

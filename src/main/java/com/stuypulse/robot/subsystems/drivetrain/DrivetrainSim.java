@@ -4,6 +4,7 @@ import com.stuypulse.robot.constants.Settings.Drivetrain.*;
 import com.stuypulse.stuylib.math.Angle;
 
 import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
@@ -78,15 +79,18 @@ public class DrivetrainSim extends AbstractDrivetrain{
         sim.setInputs(leftVolts * RoboRioSim.getVInVoltage(), rightVolts * RoboRioSim.getVInVoltage());
     }
 
+    public void chassisSpeedsDrive(ChassisSpeeds speeds) {
+        //XXX: PLACEHOLDER
+        sim.setInputs(
+            speeds.vxMetersPerSecond * RoboRioSim.getVInVoltage(), 
+            speeds.omegaRadiansPerSecond * Drivetrain.TRACK_WIDTH * RoboRioSim.getVInVoltage()
+        );
+    }
+
     public void arcadeDrive(double speed, double angle) {
         double leftVolts = speed + angle;
         double rightVolts = speed - angle;
         tankDriveVolts(leftVolts, rightVolts);
-    }
-
-    public void curvatureDrive(double speed, double angle, boolean isQuickTurn) {
-        //XXX: using arcade drive for now
-        arcadeDrive(speed, angle);
     }
 
     public void stop() {
