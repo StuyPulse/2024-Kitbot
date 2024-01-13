@@ -92,6 +92,7 @@ public class RobotContainer {
 
     public void configureAutons() {
         autonChooser.setDefaultOption("Do Nothing", new DoNothingAuton());
+        autonChooser.addOption("DriveForever", new DrivetrainDriveForever(2));
 
         SmartDashboard.putData("Autonomous", autonChooser);
     }

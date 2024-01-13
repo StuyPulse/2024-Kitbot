@@ -38,16 +38,16 @@ public class Drivetrain extends AbstractDrivetrain {
     }
 
     //********** GETTERS **********//
-    public double getLeftSpeed() {
+    public double getLeftVelocity() {
         return leftFront.getEncoder().getVelocity();
     }
 
-    public double getRightSpeed() {
+    public double getRightVelocity() {
         return rightFront.getEncoder().getVelocity();
     }
 
     public double getVelocity() {
-        return (getLeftSpeed() + getRightSpeed()) / 2.0;
+        return (getLeftVelocity() + getRightVelocity()) / 2.0;
     }
 
     public double getLeftVoltage() {
@@ -99,8 +99,8 @@ public class Drivetrain extends AbstractDrivetrain {
 
     @Override
     public void periodicChild() {
-        SmartDashboard.putNumber("Drivetrain/Left Speed", getLeftSpeed());
-        SmartDashboard.putNumber("Drivetrain/Right Speed", getRightSpeed());
+        SmartDashboard.putNumber("Drivetrain/Left Speed", getLeftVelocity());
+        SmartDashboard.putNumber("Drivetrain/Right Speed", getRightVelocity());
         SmartDashboard.putNumber("Drivetrain/Left Voltage", getLeftVoltage());
         SmartDashboard.putNumber("Drivetrain/Right Voltage", getRightVoltage());
     }
