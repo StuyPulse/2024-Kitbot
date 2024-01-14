@@ -10,6 +10,7 @@ import com.stuypulse.robot.commands.drivetrain.DriveDrive;
 import com.stuypulse.robot.commands.drivetrain.DrivetrainDrive;
 import com.stuypulse.robot.commands.drivetrain.DrivetrainDriveForever;
 import com.stuypulse.robot.commands.launcher.LaunchPrepare;
+import com.stuypulse.robot.commands.launcher.LauncherLaunch;
 import com.stuypulse.robot.commands.launcher.LauncherIntakeNote;
 import com.stuypulse.robot.commands.launcher.LauncherStop;
 import com.stuypulse.robot.commands.odometry.OdometryRealign;
@@ -24,6 +25,7 @@ import com.stuypulse.stuylib.input.gamepads.AutoGamepad;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class RobotContainer {
 
@@ -33,7 +35,7 @@ public class RobotContainer {
     
     // Subsystem
     public final AbstractDrivetrain drivetrain = AbstractDrivetrain.getInstance();
-    // public final Launcher launcher = Launcher.getInstance();
+    public final Launcher launcher = Launcher.getInstance();
     //public final AbstractOdometry odometry = AbstractOdometry.getInstance();
     //public final AbstractVision vision = AbstractVision.getInstance();
 
@@ -66,23 +68,17 @@ public class RobotContainer {
     }
 
     private void configureDriverBindings() {
-        operator.getLeftBumper()
-            .onTrue(new LauncherIntakeNote())
+        driver.getRightBumper()
+            .whileTrue(new LauncherIntakeNote())
             .onFalse(new LauncherStop());
     
-        operator.getRightBumper()
+        driver.getBottomButton()
             .onTrue(new LaunchPrepare())
-            .whileTrue(new LauncherIntakeNote())
+            .whileTrue(new WaitCommand(0.5).andThen(new LauncherLaunch()))
             .onFalse(new LauncherStop());
     }
 
     private void configureOperatorBindings() {
-        // odometry
-        //driver.getDPadUp().onTrue(new OdometryRealign(Rotation2d.fromDegrees(180)));
-        //driver.getDPadLeft().onTrue(new OdometryRealign(Rotation2d.fromDegrees(-90)));
-        //driver.getDPadDown().onTrue(new OdometryRealign(Rotation2d.fromDegrees(0)));
-        //driver.getDPadRight().onTrue(new OdometryRealign(Rotation2d.fromDegrees(90)));
-
         driver.getLeftButton().onTrue(new DrivetrainDriveForever(2));
     }
 

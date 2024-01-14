@@ -77,7 +77,7 @@ public class Drivetrain extends AbstractDrivetrain {
     //********** Drive Methods **********//
     public void tankDriveVolts(double leftVolts, double rightVolts) {
         leftFront.setVoltage(leftVolts);
-        rightFront.setVoltage(-rightVolts);
+        rightFront.setVoltage(rightVolts);
         drivetrain.feed();
     }
 

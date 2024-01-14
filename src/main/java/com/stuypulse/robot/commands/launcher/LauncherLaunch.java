@@ -4,10 +4,10 @@ import com.stuypulse.robot.subsystems.launcher.Launcher;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
-public class LaunchNote extends InstantCommand {
+public class LauncherLaunch extends InstantCommand {
     Launcher launcher;
 
-    public LaunchNote() {
+    public LauncherLaunch() {
         launcher = Launcher.getInstance();
         addRequirements(launcher);
     }

@@ -19,18 +19,17 @@ public class DrivetrainDrive extends Command {
     public DrivetrainDrive(Gamepad driver) {
         this.drivetrain = AbstractDrivetrain.getInstance();
 
-        this.speed = IStream.create(
-            () -> driver.getRightY() - driver.getLeftY())
+        this.speed = IStream.create(() -> driver.getRightTrigger() - driver.getLeftTrigger())
             .filtered(
                 x -> SLMath.deadband(x, 0),
                 x -> SLMath.spow(x, 2)
         );
 
-        this.angle = IStream.create(
-            () -> driver.getRightX() - driver.getLeftX())
+        this.angle = IStream.create(() -> driver.getLeftX())
             .filtered(
                 x -> SLMath.deadband(x, 0),
-                x -> SLMath.spow(x, 2)
+                x -> SLMath.spow(x, 2),
+                x -> -x
         );
 
         addRequirements(drivetrain);
@@ -39,6 +38,6 @@ public class DrivetrainDrive extends Command {
 
     @Override
     public void execute() {
-        drivetrain.arcadeDrive(speed.get(), angle.get());
+        drivetrain.curvatureDrive(speed.get(), angle.get(), true);
     }
 }
