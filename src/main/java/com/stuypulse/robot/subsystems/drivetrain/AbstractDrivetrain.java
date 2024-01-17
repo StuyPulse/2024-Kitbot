@@ -29,6 +29,7 @@ public abstract class AbstractDrivetrain extends SubsystemBase {
 
     public abstract void tankDriveVolts(double leftVolts, double rightVolts);
     public abstract void arcadeDrive(double speed, double angle);
+    public abstract void curvatureDrive(double speed, double angle, boolean isQuickTurn);
    
     public abstract void stop();
 
@@ -38,7 +39,5 @@ public abstract class AbstractDrivetrain extends SubsystemBase {
     public void periodic() {
         periodicChild();
     }
-
    
-        
 }
