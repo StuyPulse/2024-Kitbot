@@ -19,7 +19,6 @@ public class Drivetrain extends AbstractDrivetrain {
     private final CANSparkMax rightBack;
 
     public Drivetrain() {
-        //TODO: changed to brushless for simulation
         leftFront = new CANSparkMax(Ports.Drivetrain.LEFTFRONT, MotorType.kBrushless);
         leftBack = new CANSparkMax(Ports.Drivetrain.LEFTREAR, MotorType.kBrushless);
         rightFront = new CANSparkMax(Ports.Drivetrain.RIGHTFRONT, MotorType.kBrushless);

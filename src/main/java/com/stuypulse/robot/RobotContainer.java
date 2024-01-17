@@ -9,6 +9,7 @@ import com.stuypulse.robot.commands.auton.DoNothingAuton;
 import com.stuypulse.robot.commands.drivetrain.DriveDrive;
 import com.stuypulse.robot.commands.drivetrain.DrivetrainDrive;
 import com.stuypulse.robot.commands.drivetrain.DrivetrainDriveForever;
+import com.stuypulse.robot.commands.launcher.LaunchNote;
 import com.stuypulse.robot.commands.launcher.LaunchPrepare;
 import com.stuypulse.robot.commands.launcher.LauncherIntakeNote;
 import com.stuypulse.robot.commands.launcher.LauncherStop;
@@ -24,6 +25,7 @@ import com.stuypulse.stuylib.input.gamepads.AutoGamepad;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class RobotContainer {
 
@@ -53,7 +55,7 @@ public class RobotContainer {
     /****************/
 
     private void configureDefaultCommands() {
-        drivetrain.setDefaultCommand(new DrivetrainDrive(driver));
+        //drivetrain.setDefaultCommand(new DrivetrainDrive(driver));
     }
 
     /***************/
@@ -71,9 +73,14 @@ public class RobotContainer {
             .onFalse(new LauncherStop());
     
         operator.getRightBumper()
-            .onTrue(new LaunchPrepare())
-            .whileTrue(new LauncherIntakeNote())
+            .whileTrue(new WaitCommand(0.5)
+                    .andThen(new LaunchNote()))
             .onFalse(new LauncherStop());
+    }
+
+    private Command waitSeconds(double d) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'waitSeconds'");
     }
 
     private void configureOperatorBindings() {

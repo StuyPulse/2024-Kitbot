@@ -6,6 +6,7 @@ import com.stuypulse.robot.subsystems.launcher.Launcher;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 /**
+ * WARNING: DONT USE THIS COMMAND
  * PrepareLaunch sets the launcher to the launch speed, spins just the outside wheel of the launcher to allow it to get up to speed before launching
  */
 public class LaunchPrepare extends InstantCommand {

@@ -25,7 +25,6 @@ public class Launcher extends SubsystemBase{
     private final CANSparkMax launcher;
     
     public Launcher() {
-        //TODO: changed to brushless for simulation
         feeder = new CANSparkMax(Ports.Launcher.FEEDER, MotorType.kBrushless); 
         launcher = new CANSparkMax(Ports.Launcher.LAUNCHER, MotorType.kBrushless);
 
