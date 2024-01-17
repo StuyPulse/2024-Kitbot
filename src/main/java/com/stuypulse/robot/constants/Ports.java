@@ -24,4 +24,9 @@ public interface Ports {
         int FEEDER = 20;
         int LAUNCHER = 21;
     }
+
+    public interface Climber {
+        int LEFTCLIMBER = 22;
+        int RIGHTCLIMBER = 23;
+    }
 }

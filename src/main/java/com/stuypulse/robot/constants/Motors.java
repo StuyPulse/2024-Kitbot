@@ -29,7 +29,12 @@ public interface Motors {
 
     public interface Launcher {
         CANSparkMaxConfig LAUNCHER = new CANSparkMaxConfig(false, IdleMode.kCoast, 80);
-        CANSparkMaxConfig FEEDER = new CANSparkMaxConfig(false, IdleMode.kCoast, 80);
+        CANSparkMaxConfig FEEDER = new CANSparkMaxConfig(false, IdleMode.kCoast, 80, .5);
+    }
+
+    public interface Climber {
+        CANSparkMaxConfig LEFTCLIMBER = new CANSparkMaxConfig(false, IdleMode.kCoast, 80);
+        CANSparkMaxConfig RIGHTCLIMBER = new CANSparkMaxConfig(false, IdleMode.kCoast, 80);
     }
 
     /** Classes to store all of the values a motor needs */

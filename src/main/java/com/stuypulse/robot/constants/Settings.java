@@ -45,6 +45,14 @@ public interface Settings {
         double kLauncherDelay = 1;
     }
 
+    public interface Climber {
+        SmartNumber JIGGLE_TIME = new SmartNumber("Climber/Jiggle Duration", 0.05);
+        
+        SmartNumber DEFAULT_SPEED = new SmartNumber("Climber/Default Speed", 1.0);
+        SmartNumber SLOW_SPEED = new SmartNumber("Climber/Slow Speed", 0.8);
+
+    }
+
     public interface Alignment {
 
         SmartNumber SPEED_ADJ_FILTER = new SmartNumber("Alignment/Speed Adj RC", 0.1);
