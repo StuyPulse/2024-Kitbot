@@ -32,7 +32,7 @@ public abstract class AbstractDrivetrain extends SubsystemBase {
    
     public abstract void stop();
 
-    public abstract void periodicChild();
+    public void periodicChild() {}
 
     @Override
     public void periodic() {
