@@ -76,7 +76,6 @@ public class RobotContainer {
     }
 
     private void configureOperatorBindings() {
-        driver.getLeftButton().onTrue(new DrivetrainDriveForever(2));
     }
 
     /**************/

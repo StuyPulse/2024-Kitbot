@@ -8,6 +8,7 @@ import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.stuylib.math.Angle;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Drivetrain extends AbstractDrivetrain {
@@ -19,8 +20,9 @@ public class Drivetrain extends AbstractDrivetrain {
     private final CANSparkMax rightBack;
 
     public Drivetrain() {
-        leftFront = new CANSparkMax(Ports.Drivetrain.LEFTFRONT, MotorType.kBrushless);
         leftBack = new CANSparkMax(Ports.Drivetrain.LEFTREAR, MotorType.kBrushless);
+        leftFront = new CANSparkMax(Ports.Drivetrain.LEFTFRONT, MotorType.kBrushless);
+  
         rightFront = new CANSparkMax(Ports.Drivetrain.RIGHTFRONT, MotorType.kBrushless);
         rightBack = new CANSparkMax(Ports.Drivetrain.RIGHTREAR, MotorType.kBrushless);
 
@@ -30,10 +32,10 @@ public class Drivetrain extends AbstractDrivetrain {
         Motors.Drivetrain.RIGHT.configure(rightFront);
         Motors.Drivetrain.RIGHT.configure(rightBack);
    
-        leftBack.follow(leftFront);
-        rightBack.follow(rightFront);
-        
-        drivetrain = new DifferentialDrive(leftFront, rightFront);
+        // leftBack.follow(leftFront);
+        // rightBack.follow(rightFront);
+  
+        drivetrain = new DifferentialDrive(new MotorControllerGroup(leftFront, leftBack), new MotorControllerGroup(rightFront,rightBack));
     }
 
     //********** GETTERS **********//
