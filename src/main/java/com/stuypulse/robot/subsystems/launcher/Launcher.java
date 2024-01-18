@@ -48,13 +48,13 @@ public class Launcher extends SubsystemBase{
     }
 
     public void intake() {
-        launcher.set(Settings.Launcher.INTAKE_LAUNCHER_SPEED);
-        feeder.set(Settings.Launcher.INTAKE_FEEDER_SPEED);
+        launcher.set(Settings.Launcher.INTAKE_LAUNCHER_VOLTAGE);
+        feeder.set(Settings.Launcher.INTAKE_FEEDER_VOLTAGE);
     }
 
     public void launch() {
-        launcher.set(Settings.Launcher.LAUNCH_LAUNCHER_SPEED);
-        feeder.set(Settings.Launcher.LAUNCH_FEEDER_SPEED);
+        launcher.set(Settings.Launcher.LAUNCH_LAUNCHER_VOLTAGE);
+        feeder.set(Settings.Launcher.LAUNCH_FEEDER_VOLTAGE);
     }
 
     //********** GETTERS **********
@@ -78,6 +78,7 @@ public class Launcher extends SubsystemBase{
     public void periodic() {
         SmartDashboard.putNumber("Launcher/Launcher Speed", getLauncherSpeed());
         SmartDashboard.putNumber("Launcher/Feeder Speed", getFeederSpeed());
+
         SmartDashboard.putNumber("Launcher/Launcher Voltage", getLauncherVoltage());
         SmartDashboard.putNumber("Launcher/Feeder Voltage", getFeederVoltage());
 

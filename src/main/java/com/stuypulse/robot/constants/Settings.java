@@ -37,10 +37,10 @@ public interface Settings {
     public interface Launcher {
         // Speeds for wheels when intaking and launching. Intake speeds are negative to run the wheels
         // in reverse
-        double LAUNCH_LAUNCHER_SPEED = 1;
-        double LAUNCH_FEEDER_SPEED = 1;
-        double INTAKE_LAUNCHER_SPEED = -1;
-        double INTAKE_FEEDER_SPEED = -.2;
+        double LAUNCH_LAUNCHER_VOLTAGE= 1;
+        double LAUNCH_FEEDER_VOLTAGE = 1;
+        double INTAKE_LAUNCHER_VOLTAGE = -1;
+        double INTAKE_FEEDER_VOLTAGE = -.2;
 
         double kLauncherDelay = 1;
     }

@@ -102,7 +102,16 @@ public class Drivetrain extends AbstractDrivetrain {
     public void periodicChild() {
         SmartDashboard.putNumber("Drivetrain/Left Speed", getLeftSpeed());
         SmartDashboard.putNumber("Drivetrain/Right Speed", getRightSpeed());
+
+        SmartDashboard.putNumber("Drivetrain/Left Distance", getLeftDistance());
+        SmartDashboard.putNumber("Drivetrain/Right Distance", getRightDistance());
+
         SmartDashboard.putNumber("Drivetrain/Left Voltage", getLeftVoltage());
         SmartDashboard.putNumber("Drivetrain/Right Voltage", getRightVoltage());
+
+        SmartDashboard.putNumber("Drivetrain/Velocity", getVelocity());
+        SmartDashboard.putNumber("Drivetrain/Distance", getDistance());
+
+        SmartDashboard.putNumber("Drivetrain/Angle", getAngle().toDegrees());        
     }
 }

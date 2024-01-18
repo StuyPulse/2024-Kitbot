@@ -71,7 +71,7 @@ public class RobotContainer {
             .onFalse(new LauncherStop());
     
         driver.getBottomButton()
-            .whileTrue(new WaitCommand(0.5).andThen(new LauncherLaunch()))
+            .whileTrue(new LaunchPrepare().andThen(new LauncherLaunch()))
             .onFalse(new LauncherStop());
     }
 
