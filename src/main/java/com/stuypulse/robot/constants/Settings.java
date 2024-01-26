@@ -25,6 +25,12 @@ public interface Settings {
         double GEARING = 8.45;
         double J_KG_METER_SQUARED = 7.19537;
         
+        SmartNumber MAX_SPEED_PERCENT = new SmartNumber("Driver/Max Speed Percent", 0.75);
+        SmartNumber MAX_TURN_PERCENT = new SmartNumber("Driver/Max Turn Percent", 0.45);
+
+        SmartNumber SPEED_FILTER = new SmartNumber("Driver/Speed RC", 0.2);
+        SmartNumber ANGLE_FILTER = new SmartNumber("Driver/Turn RC", 0.15);
+        
         public interface Feedforward {
             double kV = 1.6658;
             double kA = 0.4515;
