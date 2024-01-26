@@ -11,7 +11,8 @@ import edu.wpi.first.wpilibj.simulation.RoboRioSim;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class DrivetrainSim extends AbstractDrivetrain{
+public class DrivetrainSim extends AbstractDrivetrain {
+
     private final DifferentialDrivetrainSim sim;
     private final Field2d field;
 
@@ -102,5 +103,11 @@ public class DrivetrainSim extends AbstractDrivetrain{
         SmartDashboard.putNumber("SimDrivetrain/Distance", getDistance());
         
     }
+
+    @Override
+    public void setCoast() {}
+
+    @Override
+    public void setBrake() {}
 
 }
