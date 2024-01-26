@@ -26,16 +26,16 @@ public class Drivetrain extends AbstractDrivetrain {
         rightFront = new CANSparkMax(Ports.Drivetrain.RIGHTFRONT, MotorType.kBrushless);
         rightBack = new CANSparkMax(Ports.Drivetrain.RIGHTREAR, MotorType.kBrushless);
 
+        leftBack.follow(leftFront);
+        rightBack.follow(rightFront);
+
         Motors.Drivetrain.LEFT.configure(leftFront);
         Motors.Drivetrain.LEFT.configure(leftBack);
 
         Motors.Drivetrain.RIGHT.configure(rightFront);
         Motors.Drivetrain.RIGHT.configure(rightBack);
    
-        // leftBack.follow(leftFront);
-        // rightBack.follow(rightFront);
-  
-        drivetrain = new DifferentialDrive(new MotorControllerGroup(leftFront, leftBack), new MotorControllerGroup(rightFront,rightBack));
+        drivetrain = new DifferentialDrive(leftFront, rightFront);
     }
 
     //********** GETTERS **********//
