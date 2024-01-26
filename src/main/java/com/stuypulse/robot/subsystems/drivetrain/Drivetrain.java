@@ -1,6 +1,7 @@
 package com.stuypulse.robot.subsystems.drivetrain;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.robot.constants.Ports;
@@ -8,7 +9,6 @@ import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.stuylib.math.Angle;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Drivetrain extends AbstractDrivetrain {
@@ -94,7 +94,29 @@ public class Drivetrain extends AbstractDrivetrain {
         drivetrain.curvatureDrive(speed, rotation, isQuickTurn);
     }
 
-     public void stop() {
+    public CANSparkMax[] getMotors() {
+        return new CANSparkMax[] {
+            rightFront, leftFront, rightBack, leftBack
+        };
+    }
+
+    @Override
+    public void setCoast() {
+        for (CANSparkMax motor : getMotors()) {
+            motor.setIdleMode(IdleMode.kCoast);
+            motor.burnFlash();
+        }
+    }
+
+    @Override
+    public void setBrake() {
+        for (CANSparkMax motor : getMotors()) {
+            motor.setIdleMode(IdleMode.kBrake);
+            motor.burnFlash();
+        }
+    }
+
+    public void stop() {
         drivetrain.stopMotor();
     }
 

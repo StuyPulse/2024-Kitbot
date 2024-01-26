@@ -19,7 +19,6 @@ public abstract class AbstractDrivetrain extends SubsystemBase {
     public static AbstractDrivetrain getInstance() {
         return instance;
     }
-
     
     public abstract double getDistance();
 
@@ -32,6 +31,9 @@ public abstract class AbstractDrivetrain extends SubsystemBase {
     public abstract void curvatureDrive(double speed, double angle, boolean isQuickTurn);
    
     public abstract void stop();
+
+    public abstract void setCoast();
+    public abstract void setBrake();
 
     public void periodicChild() {}
 
