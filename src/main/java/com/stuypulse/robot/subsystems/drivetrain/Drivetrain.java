@@ -35,7 +35,16 @@ public class Drivetrain extends AbstractDrivetrain {
         // leftBack.follow(leftFront);
         // rightBack.follow(rightFront);
   
-        drivetrain = new DifferentialDrive(new MotorControllerGroup(leftFront, leftBack), new MotorControllerGroup(rightFront,rightBack));
+        drivetrain = new DifferentialDrive(
+            (double output) -> {
+                leftFront.set(output);
+                leftBack.set(output);
+            },
+            (double output) -> {
+                rightFront.set(output);
+                rightBack.set(output);
+            }
+        );
     }
 
     //********** GETTERS **********//
