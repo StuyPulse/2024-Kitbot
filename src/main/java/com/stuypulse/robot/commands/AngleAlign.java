@@ -7,7 +7,6 @@ import com.stuypulse.robot.subsystems.odometry.Odometry;
 import com.stuypulse.robot.subsystems.vision.AbstractVision;
 import com.stuypulse.stuylib.control.angle.feedback.AnglePIDController;
 import com.stuypulse.stuylib.math.Angle;
-import com.stuypulse.stuylib.streams.angles.AFuser;
 import com.stuypulse.stuylib.streams.booleans.BStream;
 import com.stuypulse.stuylib.streams.booleans.filters.BDebounceRC;
 import com.stuypulse.stuylib.streams.numbers.filters.IFilter;
@@ -20,7 +19,6 @@ public class AngleAlign extends Command {
     private final AbstractOdometry odometry;
     private final AbstractVision vision;
 
-    private final AFuser angleError;
     private IFilter speedAdjFilter;
 
     protected final AnglePIDController angleController;
@@ -31,11 +29,6 @@ public class AngleAlign extends Command {
         this.drivetrain = AbstractDrivetrain.getInstance();
         this.odometry = Odometry.getInstance();
         this.vision = AbstractVision.getInstance();
-
-        this.angleError = new AFuser(Alignment.FUSION_FILTER.get(),
-            () -> Angle.fromRotation2d(vision.getOutput().get(0).getPrimaryTag().getPose().toPose2d().getRotation()),
-            () -> Angle.fromRotation2d(odometry.getPose().getRotation())
-        );
 
         this.speedAdjFilter = new LowPassFilter(Alignment.SPEED_ADJ_FILTER.get());
 
@@ -51,7 +44,7 @@ public class AngleAlign extends Command {
 
     public boolean isAligned() {
         // check to see if the robot is within a threshold of the april tag target
-        return Math.abs(angleError.get().toDegrees()) < Alignment.ALIGNED_THRESHOLD_ANGLE.get();
+        return false;
     }
 
     private double getTurn() {
@@ -68,7 +61,6 @@ public class AngleAlign extends Command {
     public void initialize() {
         odometry.resetOdometery(odometry.getPose());
         angleController.reset();
-        angleError.reset();
     }
 
     @Override
