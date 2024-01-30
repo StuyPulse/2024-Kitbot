@@ -9,7 +9,7 @@ import com.stuypulse.robot.constants.Ports;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Launcher extends SubsystemBase{
+public class Launcher extends SubsystemBase {
 
     private static final Launcher instance;
 
@@ -34,12 +34,12 @@ public class Launcher extends SubsystemBase{
     }
 
     //********** SETTERS **********
-    public void setLaunchSpeed(double speed) {
-        launcher.set(speed);
+    public void setLaunchSpeed(Number speed) {
+        launcher.set(speed.doubleValue());
     }
 
-    public void setFeederSpeed(double speed) {
-        feeder.set(speed);
+    public void setFeederSpeed(Number speed) {
+        feeder.set(speed.doubleValue());
     }
 
     public void stop() {
@@ -48,39 +48,39 @@ public class Launcher extends SubsystemBase{
     }
 
     public void intake() {
-        launcher.set(Settings.Launcher.INTAKE_LAUNCHER_VOLTAGE);
-        feeder.set(Settings.Launcher.INTAKE_FEEDER_VOLTAGE);
+        launcher.set(Settings.Launcher.LAUNCHER_INTAKE_SPEED);
+        feeder.set(Settings.Launcher.FEEDER_INTAKE_SPEED);
     }
 
-    public void launch() {
-        launcher.set(Settings.Launcher.LAUNCH_LAUNCHER_VOLTAGE);
-        feeder.set(Settings.Launcher.LAUNCH_FEEDER_VOLTAGE);
+    public void launch(Number feederSpeed, Number launcherSpeed) {
+        launcher.set(launcherSpeed.doubleValue());
+        feeder.set(feederSpeed.doubleValue());
     }
 
-    //********** GETTERS **********
-    public double getLauncherSpeed() {
+    //********** GETTERS **********//
+    public double getLauncherVelocity() {
         return launcher.getEncoder().getVelocity();
     }
 
-    public double getFeederSpeed() {
+    public double getFeederVelocity() {
         return feeder.getEncoder().getVelocity();
     }
 
-    public double getLauncherVoltage() {
+    public double getLauncherSpeed() {
         return launcher.getAppliedOutput();
     }
 
-    public double getFeederVoltage() {
+    public double getFeederSpeed() {
         return feeder.getAppliedOutput();
     }
 
     @Override 
     public void periodic() {
-        SmartDashboard.putNumber("Launcher/Launcher Speed", getLauncherSpeed());
-        SmartDashboard.putNumber("Launcher/Feeder Speed", getFeederSpeed());
+        SmartDashboard.putNumber("Launcher/Launcher Velocity", getLauncherVelocity());
+        SmartDashboard.putNumber("Launcher/Feeder Velocity", getFeederVelocity());
 
-        SmartDashboard.putNumber("Launcher/Launcher Voltage", getLauncherVoltage());
-        SmartDashboard.putNumber("Launcher/Feeder Voltage", getFeederVoltage());
+        SmartDashboard.putNumber("Launcher/Launcher Output Speed", getLauncherSpeed());
+        SmartDashboard.putNumber("Launcher/Feeder Output Speed", getFeederSpeed());
 
     }
 }

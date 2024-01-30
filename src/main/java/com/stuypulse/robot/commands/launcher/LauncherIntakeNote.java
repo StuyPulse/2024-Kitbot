@@ -2,9 +2,9 @@ package com.stuypulse.robot.commands.launcher;
 
 import com.stuypulse.robot.subsystems.launcher.Launcher;
 
-import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.Command;
 
-public class LauncherIntakeNote extends InstantCommand {
+public class LauncherIntakeNote extends Command {
     Launcher launcher;
 
     public LauncherIntakeNote() {
@@ -13,7 +13,7 @@ public class LauncherIntakeNote extends InstantCommand {
     }
     
     @Override
-    public void initialize() {
+    public void execute() {
         launcher.intake();
     } 
 }
