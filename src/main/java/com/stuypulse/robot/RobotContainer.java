@@ -7,9 +7,11 @@ package com.stuypulse.robot;
 
 import com.stuypulse.robot.commands.auton.DoNothingAuton;
 import com.stuypulse.robot.commands.drivetrain.DrivetrainDrive;
+import com.stuypulse.robot.commands.launcher.LaunchPrepare;
 import com.stuypulse.robot.commands.launcher.LauncherHoldSpeed;
 import com.stuypulse.robot.commands.launcher.LauncherLaunchSpeaker;
 import com.stuypulse.robot.commands.launcher.LauncherIntakeNote;
+import com.stuypulse.robot.commands.launcher.LauncherLaunch;
 import com.stuypulse.robot.commands.launcher.LauncherStop;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
@@ -68,7 +70,7 @@ public class RobotContainer {
             .whileTrue(new LauncherIntakeNote());
     
         driver.getBottomButton()
-            .whileTrue(new LauncherLaunchSpeaker());
+            .whileTrue(new LaunchPrepare(Settings.Launcher.LAUNCHER_AMP_SPEED, Settings.Launcher.AMP_THRESHOLD_RPM).andThen(new LauncherLaunch(Settings.Launcher.FEEDER_AMP_SPEED, Settings.Launcher.LAUNCHER_AMP_SPEED)));
     }
 
     private void configureOperatorBindings() {}

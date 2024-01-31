@@ -30,6 +30,6 @@ public class LaunchPrepare extends Command {
 
     @Override
     public boolean isFinished() {
-        return launcher.getLauncherVelocity() >= thresholdRPM.doubleValue();
+        return Math.abs(launcher.getLauncherVelocity() - thresholdRPM.doubleValue()) < 100;
     } 
 }
