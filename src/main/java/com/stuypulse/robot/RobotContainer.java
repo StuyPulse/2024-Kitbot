@@ -6,24 +6,22 @@
 package com.stuypulse.robot;
 
 import com.stuypulse.robot.commands.auton.DoNothingAuton;
-import com.stuypulse.robot.commands.drivetrain.DrivetrainDriveForever;
+import com.stuypulse.robot.commands.drivetrain.DrivetrainDrive;
 import com.stuypulse.robot.commands.launcher.LaunchPrepare;
-import com.stuypulse.robot.commands.launcher.LauncherLaunch;
+import com.stuypulse.robot.commands.launcher.LauncherHoldSpeed;
+import com.stuypulse.robot.commands.launcher.LauncherLaunchSpeaker;
 import com.stuypulse.robot.commands.launcher.LauncherIntakeNote;
 import com.stuypulse.robot.commands.launcher.LauncherStop;
-import com.stuypulse.robot.commands.odometry.OdometryRealign;
 import com.stuypulse.robot.constants.Ports;
+import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.subsystems.drivetrain.AbstractDrivetrain;
 import com.stuypulse.robot.subsystems.launcher.Launcher;
-import com.stuypulse.robot.subsystems.odometry.AbstractOdometry;
-import com.stuypulse.robot.subsystems.vision.AbstractVision;
 import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.stuylib.input.gamepads.AutoGamepad;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class RobotContainer {
 
@@ -53,7 +51,8 @@ public class RobotContainer {
     /****************/
 
     private void configureDefaultCommands() {
-        //drivetrain.setDefaultCommand(new DrivetrainDrive(driver));
+        drivetrain.setDefaultCommand(new DrivetrainDrive(driver));
+        launcher.setDefaultCommand(new LauncherHoldSpeed(Settings.Launcher.LAUNCHER_SPEAKER_SPEED));
     }
 
     /***************/
@@ -67,18 +66,13 @@ public class RobotContainer {
 
     private void configureDriverBindings() {
         driver.getRightBumper()
-            .whileTrue(new LauncherIntakeNote())
-            .onFalse(new LauncherStop());
+            .whileTrue(new LauncherIntakeNote());
     
         driver.getBottomButton()
-            .onTrue(new LaunchPrepare())
-            .whileTrue(new WaitCommand(0.5).andThen(new LauncherLaunch()))
-            .onFalse(new LauncherStop());
+            .whileTrue(new LaunchPrepare(Settings.Launcher.LAUNCHER_SPEAKER_SPEED, Settings.Launcher.SPEAKER_THRESHOLD_RPM).andThen(new LauncherLaunchSpeaker()));
     }
 
-    private void configureOperatorBindings() {
-        driver.getLeftButton().onTrue(new DrivetrainDriveForever(2));
-    }
+    private void configureOperatorBindings() {}
 
     /**************/
     /*** AUTONS ***/
