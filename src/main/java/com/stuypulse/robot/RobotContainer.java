@@ -9,6 +9,7 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.stuypulse.robot.commands.auton.DoNothingAuton;
 import com.stuypulse.robot.commands.drivetrain.DrivetrainDrive;
+import com.stuypulse.robot.commands.launcher.LaunchPrepare;
 import com.stuypulse.robot.commands.launcher.LauncherHoldSpeed;
 import com.stuypulse.robot.commands.launcher.LauncherLaunchSpeaker;
 import com.stuypulse.robot.commands.launcher.LauncherIntakeNote;
@@ -79,7 +80,7 @@ public class RobotContainer {
             .whileTrue(new LauncherIntakeNote());
     
         driver.getBottomButton()
-            .whileTrue(new LauncherLaunchSpeaker());
+            .whileTrue(new LaunchPrepare(Settings.Launcher.LAUNCHER_SPEAKER_SPEED, Settings.Launcher.SPEAKER_THRESHOLD_RPM).andThen(new LauncherLaunchSpeaker()));
     }
 
     private void configureOperatorBindings() {}
