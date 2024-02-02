@@ -1,4 +1,6 @@
-package com.stuypulse.robot.commands;
+
+
+package com.stuypulse.robot.commands.drivetrain;
 
 import com.stuypulse.robot.constants.Settings.Alignment;
 import com.stuypulse.robot.subsystems.drivetrain.AbstractDrivetrain;
@@ -9,28 +11,22 @@ import com.stuypulse.stuylib.control.angle.feedback.AnglePIDController;
 import com.stuypulse.stuylib.math.Angle;
 import com.stuypulse.stuylib.streams.booleans.BStream;
 import com.stuypulse.stuylib.streams.booleans.filters.BDebounceRC;
-import com.stuypulse.stuylib.streams.numbers.filters.IFilter;
-import com.stuypulse.stuylib.streams.numbers.filters.LowPassFilter;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class AngleAlign extends Command {
+public class DrivetrainAngleAlign extends Command {
     private final AbstractDrivetrain drivetrain;
     private final AbstractOdometry odometry;
     private final AbstractVision vision;
-
-    private IFilter speedAdjFilter;
 
     protected final AnglePIDController angleController;
 
     private final BStream finished;
 
-    public AngleAlign() {
+    public DrivetrainAngleAlign() {
         this.drivetrain = AbstractDrivetrain.getInstance();
         this.odometry = Odometry.getInstance();
         this.vision = AbstractVision.getInstance();
-
-        this.speedAdjFilter = new LowPassFilter(Alignment.SPEED_ADJ_FILTER.get());
 
         this.angleController = new AnglePIDController(Alignment.Rotation.P, Alignment.Rotation.I, Alignment.Rotation.D);
         
@@ -41,20 +37,29 @@ public class AngleAlign extends Command {
 
         addRequirements(drivetrain, odometry, vision);
     }
-
+    
     public boolean isAligned() {
-        // check to see if the robot is within a threshold of the april tag target
-        return false;
+        // check to see if the robot is within a threshold of the april tag target 
+        //TODO: change the threshold constant to be different from line 34
+        return Math.abs(getTurnError().toDegrees()) < Alignment.ALIGNED_THRESHOLD_ANGLE.get();
     }
 
-    private double getTurn() {
-        // //calcs with the setpoint angle of line between tag and robot to the current angle of the robot
-        // return angleController.update(
-        //     /* angle of line between tag and robot*/
-        //     angleController.getSetpoint()
-        //     , 
-        //     odometry.getRotation());
-        return 0;
+    public Angle getTurnError() {
+        // get the angle between the robot and the april tag target
+        Angle cameraAngle = Angle.fromRotation2d(vision.getOutput().get(0).getPrimaryTag().getPose().toPose2d().getTranslation().getAngle());
+        Angle robotAngle = Angle.fromRotation2d(odometry.getPose().getRotation());
+        return cameraAngle.sub(robotAngle);
+
+    }
+
+    private double updatedTurn() {
+           //calcs with the setpoint angle of line between tag and robot to the current angle of the robot
+           return angleController.update(
+            /* angle between robot and target */
+            getTurnError(),
+            /* current angle of the robot from odometry pose */
+            Angle.fromRotation2d(odometry.getPose().getRotation())
+        );
     }
 
     @Override
@@ -64,7 +69,8 @@ public class AngleAlign extends Command {
     }
 
     @Override
-    public void execute() {
+    public void execute() {  
+        drivetrain.arcadeDrive(0, updatedTurn());
     }
 
     @Override 

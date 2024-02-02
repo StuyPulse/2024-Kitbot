@@ -17,7 +17,6 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelPositions;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -53,35 +52,19 @@ public class Drivetrain extends AbstractDrivetrain {
 
         kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(24));
         odometry = new DifferentialDriveOdometry(new Rotation2d(), getLeftDistance(), getRightDistance());
-
-        AutoBuilder.configureRamsete(
-            this::getPose,
-            this::resetPose,
-            this::getCurrentSpeeds,
-            this::drive,
-            new ReplanningConfig(),
-            () -> {
-                var alliance = DriverStation.getAlliance();
-                if (alliance.isPresent()) {
-                    return alliance.get() == DriverStation.Alliance.Red;
-                }
-                return false;
-            },
-            this
-        );
     }
 
     //********** GETTERS **********//
-    public double getLeftSpeed() {
+    public double getLeftVelocity() {
         return leftFront.getEncoder().getVelocity();
     }
 
-    public double getRightSpeed() {
+    public double getRightVelocity() {
         return rightFront.getEncoder().getVelocity();
     }
 
     public double getVelocity() {
-        return (getLeftSpeed() + getRightSpeed()) / 2.0;
+        return (getLeftVelocity() + getRightVelocity()) / 2.0;
     }
 
     public double getLeftVoltage() {
@@ -121,7 +104,7 @@ public class Drivetrain extends AbstractDrivetrain {
     }
 
     private double getAngularVelocity() {
-        return (getLeftSpeed() - getRightSpeed()) / Units.inchesToMeters(26);
+        return (getLeftVelocity() - getRightVelocity()) / Units.inchesToMeters(26);
     }
 
     public ChassisSpeeds getCurrentSpeeds() {
@@ -137,6 +120,11 @@ public class Drivetrain extends AbstractDrivetrain {
 
     public void tankDrive(double leftSpeed, double rightSpeed) {
         drivetrain.tankDrive(leftSpeed, rightSpeed);
+    }
+
+    public void chassisSpeedsDrive(ChassisSpeeds speeds) {
+        arcadeDrive(speeds.vxMetersPerSecond, speeds.omegaRadiansPerSecond * Settings.Drivetrain.TRACK_WIDTH);
+      
     }
 
     public void arcadeDrive(double speed, double rotation) {
@@ -179,14 +167,8 @@ public class Drivetrain extends AbstractDrivetrain {
 
     @Override
     public void periodicChild() {
-        odometry.update(new Rotation2d(), getWheelPositions());
-
-        SmartDashboard.putNumber("Drivetrain/Left Speed", getLeftSpeed());
-        SmartDashboard.putNumber("Drivetrain/Right Speed", getRightSpeed());
-
-        SmartDashboard.putNumber("Drivetrain/Left Distance", getLeftDistance());
-        SmartDashboard.putNumber("Drivetrain/Right Distance", getRightDistance());
-
+        SmartDashboard.putNumber("Drivetrain/Left Speed", getLeftVelocity());
+        SmartDashboard.putNumber("Drivetrain/Right Speed", getRightVelocity());
         SmartDashboard.putNumber("Drivetrain/Left Voltage", getLeftVoltage());
         SmartDashboard.putNumber("Drivetrain/Right Voltage", getRightVoltage());
 
