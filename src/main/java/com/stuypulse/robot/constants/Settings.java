@@ -49,10 +49,10 @@ public interface Settings {
         double LAUNCHER_INTAKE_SPEED = -1;
         double FEEDER_INTAKE_SPEED = -0.2;
 
-        SmartNumber AMP_THRESHOLD_RPM = new SmartNumber("Launcher/Amp/Threshold RPM", 4000);
+        SmartNumber AMP_THRESHOLD_RPM = new SmartNumber("Launcher/Amp/Threshold RPM", 2250);
 
-        SmartNumber LAUNCHER_AMP_SPEED = new SmartNumber("Launcher/Amp/Launcher Speed", 0.7);
-        SmartNumber FEEDER_AMP_SPEED = new SmartNumber("Launcher/Amp/Feeder Speed", 0.7);
+        SmartNumber LAUNCHER_AMP_SPEED = new SmartNumber("Launcher/Amp/Launcher Speed", 0.4);
+        SmartNumber FEEDER_AMP_SPEED = new SmartNumber("Launcher/Amp/Feeder Speed", 0.4);
     }
 
     public interface Alignment {

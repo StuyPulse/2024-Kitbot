@@ -22,6 +22,17 @@
         "Launcher": {
           "Amp": {
             "open": true
+          }
+        },
+        "Swerve": {
+          "Modules": {
+            "Back Left": {
+              "open": true
+            },
+            "Back Right": {
+              "open": true
+            },
+            "open": true
           },
           "open": true
         },
@@ -30,7 +41,15 @@
     },
     "types": {
       "/FMSInfo": "FMSInfo",
-      "/SmartDashboard/Autonomous": "String Chooser"
+      "/SmartDashboard/Autonomous": "String Chooser",
+      "/SmartDashboard/Field": "Field2d"
+    },
+    "windows": {
+      "/SmartDashboard/Autonomous": {
+        "window": {
+          "visible": true
+        }
+      }
     }
   },
   "NetworkTables Info": {
@@ -83,5 +102,6 @@
         }
       ]
     }
-  }
+  },
+  "enterKey": 92
 }
