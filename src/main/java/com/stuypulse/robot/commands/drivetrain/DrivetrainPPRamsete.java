@@ -1,5 +1,6 @@
 package com.stuypulse.robot.commands.drivetrain;
 
+import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.FollowPathRamsete;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.path.PathPlannerTrajectory;
@@ -11,6 +12,7 @@ import java.util.function.BooleanSupplier;
 import com.stuypulse.robot.subsystems.drivetrain.AbstractDrivetrain;
 import com.stuypulse.robot.subsystems.odometry.AbstractOdometry;
 
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 
@@ -33,6 +35,28 @@ public class DrivetrainPPRamsete extends FollowPathRamsete  /*Find the PP Drive 
         this.resetPosition = true;
         this.odometry = odometry;
         this.trajectory = path.getTrajectory(null, null);
+
+        AutoBuilder.configureRamsete(
+            odometry::getPose, // Robot pose supplier
+            odometry::resetOdometery, // Method to reset odometry (will be called if your auto has a starting pose)
+            drivetrain::getChassisSpeeds, // Current ChassisSpeeds supplier
+            (ChassisSpeeds speeds) -> { // Method that will drive the robot given ChassisSpeeds
+                drivetrain.arcadeDrive(speeds.vxMetersPerSecond, speeds.omegaRadiansPerSecond);
+            },
+            new ReplanningConfig(), // Default path replanning config. See the API for the options here
+            () -> {
+                // Boolean supplier that controls when the path will be mirrored for the red alliance
+                // This will flip the path being followed to the red side of the field.
+                // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+
+                var alliance = DriverStation.getAlliance();
+                if (alliance.isPresent()) {
+                return alliance.get() == DriverStation.Alliance.Red;
+                }
+                return false;
+            },
+            drivetrain // Reference to this subsystem to set requirements
+        );
     }
 
 
