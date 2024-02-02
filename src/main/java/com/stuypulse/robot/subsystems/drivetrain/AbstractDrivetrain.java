@@ -51,11 +51,12 @@ public abstract class AbstractDrivetrain extends SubsystemBase {
     public abstract void setCoast();
     public abstract void setBrake();
 
+    public abstract void curvatureDrive(double speed, double rotation, boolean isQuickTurn);
+
     public void periodicChild() {}
 
     @Override
     public void periodic() {
         periodicChild();
     }
-   
 }

@@ -114,4 +114,10 @@ public class DrivetrainSim extends AbstractDrivetrain {
     @Override
     public void setBrake() {}
 
+    @Override
+    public void curvatureDrive(double speed, double rotation, boolean isQuickTurn) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'curvatureDrive'");
+    }
+
 }
