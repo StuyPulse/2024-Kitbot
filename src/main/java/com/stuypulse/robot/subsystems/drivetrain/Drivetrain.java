@@ -7,12 +7,26 @@ import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.stuylib.math.Angle;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.util.ReplanningConfig;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelPositions;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Drivetrain extends AbstractDrivetrain {
+
     private final DifferentialDrive drivetrain;
+
+    private final DifferentialDriveKinematics kinematics;
+    private final DifferentialDriveOdometry odometry;
 
     private final CANSparkMax leftFront;
     private final CANSparkMax leftBack;
@@ -36,6 +50,25 @@ public class Drivetrain extends AbstractDrivetrain {
         Motors.Drivetrain.RIGHT.configure(rightBack);
    
         drivetrain = new DifferentialDrive(leftFront, rightFront);
+
+        kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(24));
+        odometry = new DifferentialDriveOdometry(new Rotation2d(), getLeftDistance(), getRightDistance());
+
+        AutoBuilder.configureRamsete(
+            this::getPose,
+            this::resetPose,
+            this::getCurrentSpeeds,
+            this::drive,
+            new ReplanningConfig(),
+            () -> {
+                var alliance = DriverStation.getAlliance();
+                if (alliance.isPresent()) {
+                    return alliance.get() == DriverStation.Alliance.Red;
+                }
+                return false;
+            },
+            this
+        );
     }
 
     //********** GETTERS **********//
@@ -74,8 +107,28 @@ public class Drivetrain extends AbstractDrivetrain {
     public Angle getAngle() {
         return Angle.fromDegrees(Math.toDegrees(getLeftDistance() - getRightDistance() / Settings.Drivetrain.TRACK_WIDTH));
     }
-    
-    //********** Drive Methods **********//
+
+    private DifferentialDriveWheelPositions getWheelPositions() {
+        return new DifferentialDriveWheelPositions(getLeftDistance(), getRightDistance());
+    }
+ 
+    public Pose2d getPose() {
+        return odometry.getPoseMeters();
+    }
+
+    public void resetPose(Pose2d pose) {
+        odometry.resetPosition(new Rotation2d(), getWheelPositions(), pose);
+    }
+
+    private double getAngularVelocity() {
+        return (getLeftSpeed() - getRightSpeed()) / Units.inchesToMeters(26);
+    }
+
+    public ChassisSpeeds getCurrentSpeeds() {
+        return new ChassisSpeeds(getVelocity(), 0, getAngularVelocity());
+    }
+
+     //********** Drive Methods **********//
     public void tankDriveVolts(double leftVolts, double rightVolts) {
         leftFront.setVoltage(leftVolts);
         rightFront.setVoltage(rightVolts);
@@ -92,6 +145,10 @@ public class Drivetrain extends AbstractDrivetrain {
 
     public void curvatureDrive(double speed, double rotation, boolean isQuickTurn) {
         drivetrain.curvatureDrive(speed, rotation, isQuickTurn);
+    }
+
+    public void drive(ChassisSpeeds speeds) {
+        drivetrain.arcadeDrive(speeds.vxMetersPerSecond, speeds.omegaRadiansPerSecond);
     }
 
     public CANSparkMax[] getMotors() {
@@ -122,6 +179,8 @@ public class Drivetrain extends AbstractDrivetrain {
 
     @Override
     public void periodicChild() {
+        odometry.update(new Rotation2d(), getWheelPositions());
+
         SmartDashboard.putNumber("Drivetrain/Left Speed", getLeftSpeed());
         SmartDashboard.putNumber("Drivetrain/Right Speed", getRightSpeed());
 

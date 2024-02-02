@@ -5,6 +5,8 @@
 
 package com.stuypulse.robot;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import com.stuypulse.robot.commands.auton.DoNothingAuton;
 import com.stuypulse.robot.commands.drivetrain.DrivetrainDrive;
 import com.stuypulse.robot.commands.launcher.LauncherHoldSpeed;
@@ -42,6 +44,7 @@ public class RobotContainer {
     public RobotContainer() {
         configureDefaultCommands();
         configureButtonBindings();
+        configureNamedCommands();
         configureAutons();
     }
 
@@ -52,6 +55,14 @@ public class RobotContainer {
     private void configureDefaultCommands() {
         drivetrain.setDefaultCommand(new DrivetrainDrive(driver));
         launcher.setDefaultCommand(new LauncherHoldSpeed(Settings.Launcher.LAUNCHER_SPEAKER_SPEED));
+    }
+
+    /**********************/
+    /*** NAMED COMMANDS ***/
+    /**********************/
+
+    private void configureNamedCommands() {
+        NamedCommands.registerCommand("LauncherLaunch", new LauncherLaunchSpeaker());
     }
 
     /***************/
@@ -78,7 +89,7 @@ public class RobotContainer {
     /**************/
 
     public void configureAutons() {
-        autonChooser.setDefaultOption("Do Nothing", new DoNothingAuton());
+        autonChooser = AutoBuilder.buildAutoChooser();
 
         SmartDashboard.putData("Autonomous", autonChooser);
     }
