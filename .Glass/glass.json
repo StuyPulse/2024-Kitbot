@@ -9,20 +9,56 @@
       }
     },
     "transitory": {
+      "FMSInfo": {
+        "open": true
+      },
+      "PathPlanner": {
+        "double[]##v_/PathPlanner/activePath": {
+          "open": true
+        },
+        "double[]##v_/PathPlanner/currentPose": {
+          "open": true
+        },
+        "double[]##v_/PathPlanner/targetPose": {
+          "open": true
+        },
+        "open": true
+      },
       "Shuffleboard": {
         "open": true
       },
       "SmartDashboard": {
+        "Autonomous": {
+          "open": true
+        },
         "Driver": {
           "open": true
         },
         "Drivetrain": {
           "open": true
         },
+        "Field": {
+          "double[]##v_/SmartDashboard/Field/Robot": {
+            "open": true
+          },
+          "open": true
+        },
         "Launcher": {
           "Amp": {
             "open": true
           }
+        },
+        "Odometry": {
+          "Field": {
+            "double[]##v_/SmartDashboard/Odometry/Field/Robot": {
+              "open": true
+            },
+            "open": true
+          },
+          "Odometry": {
+            "open": true
+          },
+          "open": true
         },
         "Swerve": {
           "Modules": {
@@ -36,27 +72,39 @@
           },
           "open": true
         },
+        "Vision": {
+          "open": true
+        },
         "open": true
       }
     },
     "types": {
       "/FMSInfo": "FMSInfo",
       "/SmartDashboard/Autonomous": "String Chooser",
-      "/SmartDashboard/Field": "Field2d"
+      "/SmartDashboard/Field": "Field2d",
+      "/SmartDashboard/Odometry/Field": "Field2d"
     },
     "windows": {
       "/SmartDashboard/Autonomous": {
         "window": {
           "visible": true
         }
+      },
+      "/SmartDashboard/Field": {
+        "bottom": 1476,
+        "height": 8.210550308227539,
+        "left": 150,
+        "right": 2961,
+        "top": 79,
+        "width": 16.541748046875,
+        "window": {
+          "visible": true
+        }
       }
     }
   },
-  "NetworkTables Info": {
-    "visible": true
-  },
   "NetworkTables Settings": {
-    "mode": "Client (NT4)",
+    "mode": "Client (NT3)",
     "serverTeam": "694"
   },
   "Plots": {

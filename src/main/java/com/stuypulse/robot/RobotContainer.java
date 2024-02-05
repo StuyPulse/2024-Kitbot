@@ -7,19 +7,18 @@ package com.stuypulse.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-import com.stuypulse.robot.commands.auton.DoNothingAuton;
+import com.stuypulse.robot.commands.auton.OneNote;
 import com.stuypulse.robot.commands.drivetrain.DrivetrainDrive;
-import com.stuypulse.robot.commands.launcher.LaunchPrepare;
 import com.stuypulse.robot.commands.launcher.LaunchPrepare;
 import com.stuypulse.robot.commands.launcher.LauncherHoldSpeed;
 import com.stuypulse.robot.commands.launcher.LauncherLaunchSpeaker;
 import com.stuypulse.robot.commands.launcher.LauncherIntakeNote;
 import com.stuypulse.robot.commands.launcher.LauncherLaunch;
-import com.stuypulse.robot.commands.launcher.LauncherStop;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.subsystems.drivetrain.AbstractDrivetrain;
 import com.stuypulse.robot.subsystems.launcher.Launcher;
+import com.stuypulse.robot.subsystems.odometry.AbstractOdometry;
 import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.stuylib.input.gamepads.AutoGamepad;
 
@@ -36,7 +35,7 @@ public class RobotContainer {
     // Subsystem
     public final AbstractDrivetrain drivetrain = AbstractDrivetrain.getInstance();
     public final Launcher launcher = Launcher.getInstance();
-    //public final AbstractOdometry odometry = AbstractOdometry.getInstance();
+    public final AbstractOdometry odometry = AbstractOdometry.getInstance();
     //public final AbstractVision vision = AbstractVision.getInstance();
 
     // Autons
@@ -48,6 +47,7 @@ public class RobotContainer {
         configureDefaultCommands();
         configureButtonBindings();
         configureNamedCommands();
+        drivetrain.configureAutoBuilder();
         configureAutons();
     }
 
@@ -57,7 +57,8 @@ public class RobotContainer {
 
     private void configureDefaultCommands() {
         drivetrain.setDefaultCommand(new DrivetrainDrive(driver));
-        launcher.setDefaultCommand(new LauncherHoldSpeed(Settings.Launcher.LAUNCHER_SPEAKER_SPEED));
+        // launcher.setDefaultCommand(new LauncherHoldSpeed(Settings.Launcher.LAUNCHER_SPEAKER_SPEED));
+        launcher.setDefaultCommand(new LauncherHoldSpeed(0));
     }
 
     /**********************/
@@ -83,6 +84,9 @@ public class RobotContainer {
     
         driver.getBottomButton()
             .whileTrue(new LaunchPrepare(Settings.Launcher.LAUNCHER_SPEAKER_SPEED, Settings.Launcher.SPEAKER_THRESHOLD_RPM).andThen(new LauncherLaunchSpeaker()));
+
+        driver.getLeftBumper()
+            .whileTrue(new LauncherLaunch(Settings.Launcher.FEEDER_SPEAKER_SPEED, Settings.Launcher.LAUNCHER_SPEAKER_SPEED));
     }
 
     private void configureOperatorBindings() {}
@@ -95,6 +99,8 @@ public class RobotContainer {
         autonChooser = AutoBuilder.buildAutoChooser();
 
         SmartDashboard.putData("Autonomous", autonChooser);
+
+        autonChooser.addOption("One Note", new OneNote(this));
     }
 
     public Command getAutonomousCommand() {

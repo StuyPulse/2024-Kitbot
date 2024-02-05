@@ -120,4 +120,10 @@ public class DrivetrainSim extends AbstractDrivetrain {
         throw new UnsupportedOperationException("Unimplemented method 'curvatureDrive'");
     }
 
+    @Override
+    public void configureAutoBuilder() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'configureAutoBuilder'");
+    }
+
 }

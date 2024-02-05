@@ -28,6 +28,9 @@ public abstract class AbstractDrivetrain extends SubsystemBase {
 
     public abstract double getDistance();
 
+    public abstract double getRightDistance();
+    public abstract double getLeftDistance();
+
     public DifferentialDriveWheelSpeeds getWheelSpeeds() {
         return new DifferentialDriveWheelSpeeds(getLeftVelocity(), getRightVelocity());
     }
@@ -52,6 +55,8 @@ public abstract class AbstractDrivetrain extends SubsystemBase {
     public abstract void setBrake();
 
     public abstract void curvatureDrive(double speed, double rotation, boolean isQuickTurn);
+
+    public abstract void configureAutoBuilder();
 
     public void periodicChild() {}
 

@@ -1,5 +1,6 @@
 package com.stuypulse.robot.subsystems.odometry;
 
+import com.stuypulse.robot.subsystems.drivetrain.AbstractDrivetrain;
 import com.stuypulse.robot.subsystems.drivetrain.Drivetrain;
 import com.stuypulse.robot.subsystems.vision.AbstractVision;
 import com.stuypulse.robot.util.Fiducial;
@@ -15,13 +16,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Odometry extends AbstractOdometry {
     
     private final DifferentialDriveOdometry odometry;
-    private final Drivetrain drivetrain;
+    private final AbstractDrivetrain drivetrain;
 
     private final Field2d field;
     private final FieldObject2d odometryPose2D;
 
     public Odometry() {
-        this.drivetrain = new Drivetrain();
+        this.drivetrain = AbstractDrivetrain.getInstance();
         this.odometry = new DifferentialDriveOdometry(getRotation(), drivetrain.getLeftDistance(), drivetrain.getRightDistance());
         resetOdometery(new Pose2d());
 
@@ -52,12 +53,12 @@ public class Odometry extends AbstractOdometry {
 
     @Override 
     public void updateOdometry() {
-       //odometry.update(getRotation(), drivetrain.getLeftDistance(), drivetrain.getRightDistance());
+       odometry.update(getRotation(), drivetrain.getLeftDistance(), drivetrain.getRightDistance());
     }
 
     @Override
     public void resetOdometery(Pose2d pose2d) {
-        //odometry.resetPosition(getRotation(), drivetrain.getLeftDistance(), drivetrain.getRightDistance(), pose2d);
+        odometry.resetPosition(getRotation(), drivetrain.getLeftDistance(), drivetrain.getRightDistance(), pose2d);
     }
 
     @Override
@@ -79,6 +80,5 @@ public class Odometry extends AbstractOdometry {
         SmartDashboard.putNumber("Odometry/Odometry/X (m)", odometry.getPoseMeters().getTranslation().getX());
         SmartDashboard.putNumber("Odometry/Odometry/Y (m)", odometry.getPoseMeters().getTranslation().getY());
         SmartDashboard.putNumber("Odometry/Odometry/Rotation (deg)", odometry.getPoseMeters().getRotation().getDegrees());
-    }
-    
+    }    
 }
