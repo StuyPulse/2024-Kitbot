@@ -4,6 +4,7 @@ import com.stuypulse.robot.constants.Settings.Drivetrain.*;
 import com.stuypulse.stuylib.math.Angle;
 
 import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
@@ -72,8 +73,9 @@ public class DrivetrainSim extends AbstractDrivetrain {
         return (getLeftVelocity() + getRightVelocity()) / 2.0;
     }
 
-    public Angle getAngle() {
-        return Angle.fromDegrees(sim.getHeading().getDegrees());
+    public 
+    Rotation2d getAngle() {
+        return sim.getHeading();
     }
 
     public void tankDriveVolts(double leftVolts, double rightVolts) {

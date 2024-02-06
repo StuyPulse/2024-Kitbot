@@ -3,6 +3,7 @@ package com.stuypulse.robot.subsystems.drivetrain;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.stuylib.math.Angle;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -41,7 +42,7 @@ public abstract class AbstractDrivetrain extends SubsystemBase {
 
     public abstract double getVelocity();
 
-    public abstract Angle getAngle();
+    public abstract Rotation2d getAngle();
 
     public abstract void tankDriveVolts(double leftVolts, double rightVolts);
 

@@ -28,7 +28,7 @@ public interface Settings {
         double TRACK_WIDTH = Units.inchesToMeters(23.83);
         double WHEEL_RADIUS = Units.inchesToMeters(3.0);
         double MASS_Kg = Units.lbsToKilograms(32.5462411);
-        double GEARING = 8.45;
+        double GEARING = (1 / 8.45) * 2 * Math.PI * WHEEL_RADIUS;
         double J_KG_METER_SQUARED = 7.19537;
 
         SmartNumber MAX_SPEED_PERCENT = new SmartNumber("Driver/Max Speed Percent", 0.75);

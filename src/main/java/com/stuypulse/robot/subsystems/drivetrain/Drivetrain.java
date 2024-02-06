@@ -45,6 +45,11 @@ public class Drivetrain extends AbstractDrivetrain {
         rightFront = new CANSparkMax(Ports.Drivetrain.RIGHTFRONT, MotorType.kBrushless);
         rightBack = new CANSparkMax(Ports.Drivetrain.RIGHTREAR, MotorType.kBrushless);
 
+        leftBack.getEncoder().setPositionConversionFactor(Settings.Drivetrain.GEARING);
+        leftFront.getEncoder().setPositionConversionFactor(Settings.Drivetrain.GEARING);
+        rightBack.getEncoder().setPositionConversionFactor(Settings.Drivetrain.GEARING);
+        rightFront.getEncoder().setPositionConversionFactor(Settings.Drivetrain.GEARING);
+        
         leftBack.follow(leftFront);
         rightBack.follow(rightFront);
 
@@ -93,8 +98,9 @@ public class Drivetrain extends AbstractDrivetrain {
         return (getLeftDistance() + getRightDistance()) / 2.0;
     } 
 
-    public Angle getAngle() {
-        return Angle.fromDegrees(Math.toDegrees(getLeftDistance() - getRightDistance() / Settings.Drivetrain.TRACK_WIDTH));
+    @Override
+    public Rotation2d getAngle() {
+        return Rotation2d.fromRadians((getLeftDistance() - getRightDistance()) / Settings.Drivetrain.TRACK_WIDTH);
     }
 
     private DifferentialDriveWheelPositions getWheelPositions() {
@@ -185,7 +191,7 @@ public class Drivetrain extends AbstractDrivetrain {
 
                 var alliance = DriverStation.getAlliance();
                 if (alliance.isPresent()) {
-                return alliance.get() == DriverStation.Alliance.Red;
+                    return alliance.get() == DriverStation.Alliance.Red;
                 }
                 return false;
             },
@@ -207,6 +213,6 @@ public class Drivetrain extends AbstractDrivetrain {
         SmartDashboard.putNumber("Drivetrain/Velocity", getVelocity());
         SmartDashboard.putNumber("Drivetrain/Distance", getDistance());
 
-        SmartDashboard.putNumber("Drivetrain/Angle", getAngle().toDegrees());        
+        SmartDashboard.putNumber("Drivetrain/Angle", getAngle().getDegrees());        
     }
 }

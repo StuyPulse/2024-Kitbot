@@ -7,7 +7,6 @@ package com.stuypulse.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-import com.stuypulse.robot.commands.auton.OneNote;
 import com.stuypulse.robot.commands.drivetrain.DrivetrainDrive;
 import com.stuypulse.robot.commands.launcher.LaunchPrepare;
 import com.stuypulse.robot.commands.launcher.LauncherHoldSpeed;
@@ -100,7 +99,7 @@ public class RobotContainer {
 
         SmartDashboard.putData("Autonomous", autonChooser);
 
-        autonChooser.addOption("One Note", new OneNote(this));
+        // autonChooser.addOption("One Note", new OneNote(this));
     }
 
     public Command getAutonomousCommand() {

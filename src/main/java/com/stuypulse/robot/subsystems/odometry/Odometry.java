@@ -23,7 +23,7 @@ public class Odometry extends AbstractOdometry {
 
     public Odometry() {
         this.drivetrain = AbstractDrivetrain.getInstance();
-        this.odometry = new DifferentialDriveOdometry(getRotation(), drivetrain.getLeftDistance(), drivetrain.getRightDistance());
+        this.odometry = new DifferentialDriveOdometry(new Rotation2d(), drivetrain.getLeftDistance(), drivetrain.getRightDistance());
         resetOdometery(new Pose2d());
 
         this.field = new Field2d();
@@ -32,12 +32,7 @@ public class Odometry extends AbstractOdometry {
     }
 
     public final Rotation2d getRotation() {
-        if (this.odometry == null) {
-            return new Rotation2d();
-        }
-        else {
-            return this.odometry.getPoseMeters().getRotation();
-        }
+        return getPose().getRotation();
     }
 
     @Override
@@ -53,12 +48,12 @@ public class Odometry extends AbstractOdometry {
 
     @Override 
     public void updateOdometry() {
-       odometry.update(getRotation(), drivetrain.getLeftDistance(), drivetrain.getRightDistance());
+       odometry.update(drivetrain.getAngle(), drivetrain.getLeftDistance(), drivetrain.getRightDistance());
     }
 
     @Override
     public void resetOdometery(Pose2d pose2d) {
-        odometry.resetPosition(getRotation(), drivetrain.getLeftDistance(), drivetrain.getRightDistance(), pose2d);
+        odometry.resetPosition(drivetrain.getAngle(), drivetrain.getLeftDistance(), drivetrain.getRightDistance(), pose2d);
     }
 
     @Override
@@ -66,19 +61,19 @@ public class Odometry extends AbstractOdometry {
         updateOdometry();
         field.setRobotPose(getPose());
 
-        SmartDashboard.putData("Odometry/Field", field);
+        SmartDashboard.putData("Field", field);
 
         for (VisionData result : AbstractVision.getInstance().getOutput()) {
 
             Fiducial primaryTag = result.getPrimaryTag();
             double distance = result.calculateDistanceToTag(primaryTag);
 
-            SmartDashboard.putNumber("Odometry/Primary Tag/Distance (m)", distance);
+            SmartDashboard.putNumber("Vision/Primary Tag/Distance (m)", distance);
         }
 
         odometryPose2D.setPose(odometry.getPoseMeters());
-        SmartDashboard.putNumber("Odometry/Odometry/X (m)", odometry.getPoseMeters().getTranslation().getX());
-        SmartDashboard.putNumber("Odometry/Odometry/Y (m)", odometry.getPoseMeters().getTranslation().getY());
-        SmartDashboard.putNumber("Odometry/Odometry/Rotation (deg)", odometry.getPoseMeters().getRotation().getDegrees());
+        SmartDashboard.putNumber("Odometry/X (m)", odometry.getPoseMeters().getTranslation().getX());
+        SmartDashboard.putNumber("Odometry/Y (m)", odometry.getPoseMeters().getTranslation().getY());
+        SmartDashboard.putNumber("Odometry/Rotation (deg)", odometry.getPoseMeters().getRotation().getDegrees());
     }    
 }
