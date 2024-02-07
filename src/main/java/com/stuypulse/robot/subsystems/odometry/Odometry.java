@@ -23,7 +23,7 @@ public class Odometry extends AbstractOdometry {
 
     public Odometry() {
         this.drivetrain = AbstractDrivetrain.getInstance();
-        this.odometry = new DifferentialDriveOdometry(new Rotation2d(), drivetrain.getLeftDistance(), drivetrain.getRightDistance());
+        this.odometry = new DifferentialDriveOdometry(drivetrain.getGyroAngle(), drivetrain.getLeftDistance(), drivetrain.getRightDistance());
         resetOdometery(new Pose2d());
 
         this.field = new Field2d();
@@ -48,12 +48,12 @@ public class Odometry extends AbstractOdometry {
 
     @Override 
     public void updateOdometry() {
-       odometry.update(drivetrain.getAngle(), drivetrain.getLeftDistance(), drivetrain.getRightDistance());
+       odometry.update(drivetrain.getGyroAngle(), drivetrain.getLeftDistance(), drivetrain.getRightDistance());
     }
 
     @Override
     public void resetOdometery(Pose2d pose2d) {
-        odometry.resetPosition(drivetrain.getAngle(), drivetrain.getLeftDistance(), drivetrain.getRightDistance(), pose2d);
+        odometry.resetPosition(drivetrain.getGyroAngle(), drivetrain.getLeftDistance(), drivetrain.getRightDistance(), pose2d);
     }
 
     @Override

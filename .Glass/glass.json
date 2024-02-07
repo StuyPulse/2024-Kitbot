@@ -21,27 +21,19 @@
         },
         "double[]##v_/PathPlanner/targetPose": {
           "open": true
-        },
-        "open": true
+        }
       },
       "Shuffleboard": {
         "open": true
       },
       "SmartDashboard": {
-        "Autonomous": {
-          "open": true
-        },
-        "Driver": {
-          "open": true
-        },
         "Drivetrain": {
           "open": true
         },
         "Field": {
           "double[]##v_/SmartDashboard/Field/Robot": {
             "open": true
-          },
-          "open": true
+          }
         },
         "Launcher": {
           "Amp": {
@@ -52,8 +44,7 @@
           "Field": {
             "double[]##v_/SmartDashboard/Odometry/Field/Robot": {
               "open": true
-            },
-            "open": true
+            }
           },
           "Odometry": {
             "open": true
@@ -70,9 +61,6 @@
             },
             "open": true
           },
-          "open": true
-        },
-        "Vision": {
           "open": true
         },
         "open": true
@@ -103,6 +91,9 @@
       }
     }
   },
+  "NetworkTables Info": {
+    "visible": true
+  },
   "NetworkTables Settings": {
     "mode": "Client (NT3)",
     "serverTeam": "694"
@@ -111,22 +102,27 @@
     "Plot <0>": {
       "plots": [
         {
+          "axis": [
+            {
+              "autoFit": true
+            }
+          ],
           "backgroundColor": [
             0.0,
             0.0,
             0.0,
             0.8500000238418579
           ],
-          "height": 332,
+          "height": 539,
           "series": [
             {
               "color": [
-                0.2980392277240753,
-                0.44705885648727417,
-                0.6901960968971252,
+                0.7686275243759155,
+                0.30588236451148987,
+                0.32156863808631897,
                 1.0
               ],
-              "id": "NT:/SmartDashboard/Launcher/Feeder Output Speed"
+              "id": "NT:/SmartDashboard/Drivetrain/Angle"
             },
             {
               "color": [
@@ -135,16 +131,7 @@
                 0.32156863808631897,
                 1.0
               ],
-              "id": "NT:/SmartDashboard/Launcher/Launcher Output Speed"
-            },
-            {
-              "color": [
-                0.3333333432674408,
-                0.658823549747467,
-                0.4078431725502014,
-                1.0
-              ],
-              "id": "NT:/SmartDashboard/Launcher/Launcher Velocity"
+              "id": "NT:/SmartDashboard/Odometry/Rotation (deg)"
             }
           ]
         }

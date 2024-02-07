@@ -7,6 +7,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public abstract class AbstractDrivetrain extends SubsystemBase {
@@ -42,7 +43,7 @@ public abstract class AbstractDrivetrain extends SubsystemBase {
 
     public abstract double getVelocity();
 
-    public abstract Rotation2d getAngle();
+    public abstract Rotation2d getGyroAngle();
 
     public abstract void tankDriveVolts(double leftVolts, double rightVolts);
 
@@ -63,6 +64,7 @@ public abstract class AbstractDrivetrain extends SubsystemBase {
 
     @Override
     public void periodic() {
+        SmartDashboard.putNumber("Drivetrain/Chassis Speeds", getChassisSpeeds().omegaRadiansPerSecond);
         periodicChild();
     }
 }

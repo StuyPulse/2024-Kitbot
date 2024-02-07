@@ -11,6 +11,7 @@ import com.stuypulse.robot.commands.drivetrain.DrivetrainDrive;
 import com.stuypulse.robot.commands.launcher.LaunchPrepare;
 import com.stuypulse.robot.commands.launcher.LauncherHoldSpeed;
 import com.stuypulse.robot.commands.launcher.LauncherLaunchSpeaker;
+import com.stuypulse.robot.commands.odometry.OdometryReset;
 import com.stuypulse.robot.commands.launcher.LauncherIntakeNote;
 import com.stuypulse.robot.commands.launcher.LauncherLaunch;
 import com.stuypulse.robot.constants.Ports;
@@ -21,6 +22,8 @@ import com.stuypulse.robot.subsystems.odometry.AbstractOdometry;
 import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.stuylib.input.gamepads.AutoGamepad;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -86,6 +89,9 @@ public class RobotContainer {
 
         driver.getLeftBumper()
             .whileTrue(new LauncherLaunch(Settings.Launcher.FEEDER_SPEAKER_SPEED, Settings.Launcher.LAUNCHER_SPEAKER_SPEED));
+        
+        driver.getTopButton()
+            .onTrue(new OdometryReset(() -> new Pose2d(0, 0, new Rotation2d())));
     }
 
     private void configureOperatorBindings() {}

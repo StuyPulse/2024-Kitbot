@@ -74,7 +74,7 @@ public class DrivetrainSim extends AbstractDrivetrain {
     }
 
     public 
-    Rotation2d getAngle() {
+    Rotation2d getGyroAngle() {
         return sim.getHeading();
     }
 

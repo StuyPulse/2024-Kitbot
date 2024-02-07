@@ -7,6 +7,7 @@ import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.stuylib.math.Angle;
+import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.ReplanningConfig;
 
@@ -24,6 +25,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.SPI;
 
 
 public class Drivetrain extends AbstractDrivetrain {
@@ -37,6 +39,8 @@ public class Drivetrain extends AbstractDrivetrain {
     private final CANSparkMax leftBack;
     private final CANSparkMax rightFront;
     private final CANSparkMax rightBack;
+
+    private final AHRS navX;
 
     public Drivetrain() {
         leftBack = new CANSparkMax(Ports.Drivetrain.LEFTREAR, MotorType.kBrushless);
@@ -61,8 +65,10 @@ public class Drivetrain extends AbstractDrivetrain {
    
         drivetrain = new DifferentialDrive(leftFront, rightFront);
 
+        navX = new AHRS(SPI.Port.kMXP);
+
         kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(24));
-        odometry = new DifferentialDriveOdometry(new Rotation2d(), getLeftDistance(), getRightDistance());
+        odometry = new DifferentialDriveOdometry(getGyroAngle(), getLeftDistance(), getRightDistance());
     }
 
     //********** GETTERS **********//
@@ -96,11 +102,12 @@ public class Drivetrain extends AbstractDrivetrain {
 
     public double getDistance() {
         return (getLeftDistance() + getRightDistance()) / 2.0;
-    } 
+    }
 
     @Override
-    public Rotation2d getAngle() {
-        return Rotation2d.fromRadians((getLeftDistance() - getRightDistance()) / Settings.Drivetrain.TRACK_WIDTH);
+    public Rotation2d getGyroAngle() {
+        // return Rotation2d.fromRadians((getLeftDistance() - getRightDistance()) / Settings.Drivetrain.TRACK_WIDTH);
+        return Rotation2d.fromDegrees(navX.getAngle());
     }
 
     private DifferentialDriveWheelPositions getWheelPositions() {
@@ -112,7 +119,7 @@ public class Drivetrain extends AbstractDrivetrain {
     }
 
     public void resetPose(Pose2d pose) {
-        odometry.resetPosition(new Rotation2d(), getWheelPositions(), pose);
+        odometry.resetPosition(getGyroAngle(), getWheelPositions(), pose);
     }
 
     private double getAngularVelocity() {
@@ -140,11 +147,11 @@ public class Drivetrain extends AbstractDrivetrain {
     }
 
     public void arcadeDrive(double speed, double rotation) {
-        drivetrain.arcadeDrive(speed, rotation);
+        drivetrain.arcadeDrive(speed, -rotation);
     }
 
     public void curvatureDrive(double speed, double rotation, boolean isQuickTurn) {
-        drivetrain.curvatureDrive(speed, rotation, isQuickTurn);
+        drivetrain.curvatureDrive(speed, -rotation, isQuickTurn);
     }
 
     public void drive(ChassisSpeeds speeds) {
@@ -197,6 +204,11 @@ public class Drivetrain extends AbstractDrivetrain {
             },
             this // Reference to this subsystem to set requirements
         );
+
+
+        // CHECK:
+        // - getChassisSpeed CCW+ rotation speed
+        // - arcade drive with positive makes robot go CCW
     }
 
     public void stop() {
@@ -213,6 +225,7 @@ public class Drivetrain extends AbstractDrivetrain {
         SmartDashboard.putNumber("Drivetrain/Velocity", getVelocity());
         SmartDashboard.putNumber("Drivetrain/Distance", getDistance());
 
-        SmartDashboard.putNumber("Drivetrain/Angle", getAngle().getDegrees());        
+        SmartDashboard.putNumber("Drivetrain/Angle", getGyroAngle().getDegrees());     
+        SmartDashboard.putNumber("Drivetrain/Gyro Angle", getGyroAngle().getDegrees());     
     }
 }
