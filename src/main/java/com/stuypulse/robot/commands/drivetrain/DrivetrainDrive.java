@@ -38,7 +38,6 @@ public class DrivetrainDrive extends Command {
         );
 
         addRequirements(drivetrain);
-
     }
 
     @Override

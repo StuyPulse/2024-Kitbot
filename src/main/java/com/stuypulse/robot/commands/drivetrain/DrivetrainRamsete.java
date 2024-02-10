@@ -1,8 +1,5 @@
 package com.stuypulse.robot.commands.drivetrain;
 
-import java.util.function.BiConsumer;
-import java.util.function.Supplier;
-
 import com.stuypulse.robot.constants.Settings.Drivetrain.Motion;
 import com.stuypulse.robot.subsystems.drivetrain.AbstractDrivetrain;
 import com.stuypulse.robot.subsystems.odometry.AbstractOdometry;
@@ -10,11 +7,8 @@ import com.stuypulse.robot.util.TrajectoryLoader;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
-import edu.wpi.first.wpilibj2.command.Subsystem;
 
 public class DrivetrainRamsete extends RamseteCommand {
     

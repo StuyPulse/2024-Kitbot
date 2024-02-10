@@ -8,6 +8,7 @@ import com.stuypulse.robot.subsystems.odometry.AbstractOdometry;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -92,13 +93,9 @@ public class DrivetrainSim extends AbstractDrivetrain {
     }
     
     @Override
-    public void simulationPeriodic() {
+    public void periodicChild() {
         sim.update(0.02);
         AbstractOdometry.getInstance().getField().setRobotPose(sim.getPose());
-        
-        SmartDashboard.putNumber("SimDrivetrain/Left Distance", getLeftDistance());
-        SmartDashboard.putNumber("SimDrivetrain/Right Distance", getRightDistance());
-        SmartDashboard.putNumber("SimDrivetrain/Distance", getDistance());
     }
 
     @Override
@@ -108,7 +105,9 @@ public class DrivetrainSim extends AbstractDrivetrain {
     public void setBrake() {}
 
     @Override
-    public void curvatureDrive(double speed, double rotation, boolean isQuickTurn) {}
+    public void curvatureDrive(double speed, double rotation, boolean isQuickTurn) {
+        
+    }
 
     public void configureAutoBuilder() {
         AbstractOdometry odometry = AbstractOdometry.getInstance();

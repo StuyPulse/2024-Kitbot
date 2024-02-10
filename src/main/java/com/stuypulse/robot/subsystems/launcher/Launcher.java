@@ -30,7 +30,6 @@ public class Launcher extends SubsystemBase {
 
         Motors.Launcher.FEEDER.configure(feeder);
         Motors.Launcher.LAUNCHER.configure(launcher);
-   
     }
 
     //********** SETTERS **********

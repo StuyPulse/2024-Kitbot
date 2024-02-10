@@ -1,7 +1,6 @@
 package com.stuypulse.robot.subsystems.odometry;
 
 import com.stuypulse.robot.subsystems.drivetrain.AbstractDrivetrain;
-import com.stuypulse.robot.subsystems.drivetrain.Drivetrain;
 import com.stuypulse.robot.subsystems.vision.AbstractVision;
 import com.stuypulse.robot.util.Fiducial;
 import com.stuypulse.robot.util.VisionData;
@@ -10,7 +9,6 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
-import edu.wpi.first.wpilibj.smartdashboard.FieldObject2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Odometry extends AbstractOdometry {
@@ -59,8 +57,8 @@ public class Odometry extends AbstractOdometry {
     public void periodic() {
         updateOdometry();
         field.setRobotPose(odometry.getPoseMeters());
-        for (VisionData result : AbstractVision.getInstance().getOutput()) {
 
+        for (VisionData result : AbstractVision.getInstance().getOutput()) {
             Fiducial primaryTag = result.getPrimaryTag();
             double distance = result.calculateDistanceToTag(primaryTag);
             SmartDashboard.putNumber("Vision/Primary Tag", primaryTag.getID());
