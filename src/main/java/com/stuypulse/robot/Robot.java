@@ -34,7 +34,8 @@ public class Robot extends TimedRobot {
 
     @Override
     public void disabledInit() {
-        robot.drivetrain.setCoast();
+        // robot.drivetrain.setCoast();
+        robot.drivetrain.setBrake();
     }
 
     @Override

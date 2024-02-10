@@ -1,22 +1,23 @@
 package com.stuypulse.robot.subsystems.drivetrain;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.util.ReplanningConfig;
 import com.stuypulse.robot.constants.Settings.Drivetrain;
 import com.stuypulse.robot.constants.Settings.Drivetrain.*;
-import com.stuypulse.stuylib.math.Angle;
+import com.stuypulse.robot.subsystems.odometry.AbstractOdometry;
 
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.wpilibj.simulation.RoboRioSim;
-import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DrivetrainSim extends AbstractDrivetrain {
 
     private final DifferentialDrivetrainSim sim;
-    private final Field2d field;
 
     public DrivetrainSim() {
         // this.sim = new DifferentialDrivetrainSim(
@@ -44,9 +45,6 @@ public class DrivetrainSim extends AbstractDrivetrain {
             // give the drivetrain measurement noise (none in this example)
             VecBuilder.fill(0, 0, 0, 0, 0, 0, 0)
 		);
-
-        this.field = new Field2d();
-        SmartDashboard.putData("Sim Field", field);
     }
 
     public double getLeftDistance() {
@@ -73,8 +71,7 @@ public class DrivetrainSim extends AbstractDrivetrain {
         return (getLeftVelocity() + getRightVelocity()) / 2.0;
     }
 
-    public 
-    Rotation2d getGyroAngle() {
+    public Rotation2d getGyroAngle() {
         return sim.getHeading();
     }
 
@@ -82,13 +79,7 @@ public class DrivetrainSim extends AbstractDrivetrain {
         sim.setInputs(leftVolts * RoboRioSim.getVInVoltage(), rightVolts * RoboRioSim.getVInVoltage());
     }
 
-    public void chassisSpeedsDrive(ChassisSpeeds speeds) {
-        //XXX: PLACEHOLDER
-        sim.setInputs(
-            speeds.vxMetersPerSecond * RoboRioSim.getVInVoltage(), 
-            speeds.omegaRadiansPerSecond * Drivetrain.TRACK_WIDTH * RoboRioSim.getVInVoltage()
-        );
-    }
+    public void chassisSpeedsDrive(ChassisSpeeds speeds) {}
 
     public void arcadeDrive(double speed, double angle) {
         double leftVolts = speed + angle;
@@ -100,14 +91,14 @@ public class DrivetrainSim extends AbstractDrivetrain {
         tankDriveVolts(0, 0);
     }
     
-    public void periodicChild() {
+    @Override
+    public void simulationPeriodic() {
         sim.update(0.02);
-        field.setRobotPose(sim.getPose());
-
+        AbstractOdometry.getInstance().getField().setRobotPose(sim.getPose());
+        
         SmartDashboard.putNumber("SimDrivetrain/Left Distance", getLeftDistance());
         SmartDashboard.putNumber("SimDrivetrain/Right Distance", getRightDistance());
         SmartDashboard.putNumber("SimDrivetrain/Distance", getDistance());
-        
     }
 
     @Override
@@ -117,15 +108,31 @@ public class DrivetrainSim extends AbstractDrivetrain {
     public void setBrake() {}
 
     @Override
-    public void curvatureDrive(double speed, double rotation, boolean isQuickTurn) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'curvatureDrive'");
-    }
+    public void curvatureDrive(double speed, double rotation, boolean isQuickTurn) {}
 
-    @Override
     public void configureAutoBuilder() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'configureAutoBuilder'");
-    }
+        AbstractOdometry odometry = AbstractOdometry.getInstance();
 
+        AutoBuilder.configureRamsete(
+            odometry::getPose, // Robot pose supplier
+            odometry::resetOdometery, // Method to reset odometry (will be called if your auto has a starting pose)
+            this::getChassisSpeeds, // Current ChassisSpeeds supplier
+            (ChassisSpeeds speeds) -> { // Method that will drive the robot given ChassisSpeeds
+                getInstance().arcadeDrive(speeds.vxMetersPerSecond, speeds.omegaRadiansPerSecond);
+            },
+            new ReplanningConfig(), // Default path replanning config. See the API for the options here
+            () -> {
+                // Boolean supplier that controls when the path will be mirrored for the red alliance
+                // This will flip the path being followed to the red side of the field.
+                // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+
+                var alliance = DriverStation.getAlliance();
+                if (alliance.isPresent()) {
+                    return alliance.get() == DriverStation.Alliance.Red;
+                }
+                return false;
+            },
+            this // Reference to this subsystem to set requirements
+        );
+    }
 }

@@ -24,7 +24,6 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.SPI;
 
 
@@ -142,8 +141,7 @@ public class Drivetrain extends AbstractDrivetrain {
     }
 
     public void chassisSpeedsDrive(ChassisSpeeds speeds) {
-        arcadeDrive(speeds.vxMetersPerSecond, speeds.omegaRadiansPerSecond * Settings.Drivetrain.TRACK_WIDTH);
-      
+        arcadeDrive(speeds.vxMetersPerSecond, speeds.omegaRadiansPerSecond / 3.0);
     }
 
     public void arcadeDrive(double speed, double rotation) {
@@ -180,36 +178,6 @@ public class Drivetrain extends AbstractDrivetrain {
         }
     }
 
-    public void configureAutoBuilder() {
-        AbstractOdometry odometry = AbstractOdometry.getInstance();
-
-        AutoBuilder.configureRamsete(
-            odometry::getPose, // Robot pose supplier
-            odometry::resetOdometery, // Method to reset odometry (will be called if your auto has a starting pose)
-            this::getChassisSpeeds, // Current ChassisSpeeds supplier
-            (ChassisSpeeds speeds) -> { // Method that will drive the robot given ChassisSpeeds
-                drivetrain.arcadeDrive(speeds.vxMetersPerSecond, speeds.omegaRadiansPerSecond);
-            },
-            new ReplanningConfig(), // Default path replanning config. See the API for the options here
-            () -> {
-                // Boolean supplier that controls when the path will be mirrored for the red alliance
-                // This will flip the path being followed to the red side of the field.
-                // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
-
-                var alliance = DriverStation.getAlliance();
-                if (alliance.isPresent()) {
-                    return alliance.get() == DriverStation.Alliance.Red;
-                }
-                return false;
-            },
-            this // Reference to this subsystem to set requirements
-        );
-
-
-        // CHECK:
-        // - getChassisSpeed CCW+ rotation speed
-        // - arcade drive with positive makes robot go CCW
-    }
 
     public void stop() {
         drivetrain.stopMotor();
@@ -227,5 +195,31 @@ public class Drivetrain extends AbstractDrivetrain {
 
         SmartDashboard.putNumber("Drivetrain/Angle", getGyroAngle().getDegrees());     
         SmartDashboard.putNumber("Drivetrain/Gyro Angle", getGyroAngle().getDegrees());     
+    }
+
+    public void configureAutoBuilder() {
+        AbstractOdometry odometry = AbstractOdometry.getInstance();
+
+        AutoBuilder.configureRamsete(
+            odometry::getPose, // Robot pose supplier
+            odometry::resetOdometery, // Method to reset odometry (will be called if your auto has a starting pose)
+            this::getChassisSpeeds, // Current ChassisSpeeds supplier
+            (ChassisSpeeds speeds) -> { // Method that will drive the robot given ChassisSpeeds
+                getInstance().arcadeDrive(speeds.vxMetersPerSecond, speeds.omegaRadiansPerSecond);
+            },
+            new ReplanningConfig(), // Default path replanning config. See the API for the options here
+            () -> {
+                // Boolean supplier that controls when the path will be mirrored for the red alliance
+                // This will flip the path being followed to the red side of the field.
+                // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+
+                var alliance = DriverStation.getAlliance();
+                if (alliance.isPresent()) {
+                    return alliance.get() == DriverStation.Alliance.Red;
+                }
+                return false;
+            },
+            this // Reference to this subsystem to set requirements
+        );
     }
 }

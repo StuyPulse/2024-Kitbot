@@ -1,11 +1,15 @@
 package com.stuypulse.robot.subsystems.drivetrain;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.util.ReplanningConfig;
 import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.subsystems.odometry.AbstractOdometry;
 import com.stuypulse.stuylib.math.Angle;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -58,7 +62,7 @@ public abstract class AbstractDrivetrain extends SubsystemBase {
 
     public abstract void curvatureDrive(double speed, double rotation, boolean isQuickTurn);
 
-    public abstract void configureAutoBuilder();
+    public abstract void configureAutoBuilder(); 
 
     public void periodicChild() {}
 
