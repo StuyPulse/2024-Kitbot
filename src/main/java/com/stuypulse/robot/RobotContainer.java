@@ -7,7 +7,10 @@ package com.stuypulse.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.path.PathPlannerPath;
 import com.stuypulse.robot.commands.drivetrain.DrivetrainDrive;
+import com.stuypulse.robot.commands.drivetrain.DrivetrainTurn;
 import com.stuypulse.robot.commands.launcher.LaunchPrepare;
 import com.stuypulse.robot.commands.launcher.LauncherHoldSpeed;
 import com.stuypulse.robot.commands.launcher.LauncherLaunchSpeaker;
@@ -21,6 +24,7 @@ import com.stuypulse.robot.subsystems.launcher.Launcher;
 import com.stuypulse.robot.subsystems.odometry.AbstractOdometry;
 import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.stuylib.input.gamepads.AutoGamepad;
+import com.stuypulse.stuylib.math.Angle;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -70,6 +74,8 @@ public class RobotContainer {
 
     private void configureNamedCommands() {
         NamedCommands.registerCommand("LauncherLaunch", new LauncherLaunchSpeaker());
+        NamedCommands.registerCommand("DrivetrainTurn", new DrivetrainTurn(Angle.fromRadians(-2 * Math.PI / 3)));
+        NamedCommands.registerCommand("Test TUrn", new DrivetrainTurn(Angle.fromRotation2d(PathPlannerPath.fromPathFile("Copy of 1 Note Part 2").getStartingDifferentialPose().getRotation().times(-1))));
     }
 
     /***************/
@@ -105,8 +111,6 @@ public class RobotContainer {
         autonChooser = AutoBuilder.buildAutoChooser();
 
         SmartDashboard.putData("Autonomous", autonChooser);
-
-        // autonChooser.addOption("One Note", new OneNote(this));
     }
 
     public Command getAutonomousCommand() {

@@ -106,7 +106,7 @@ public class DrivetrainSim extends AbstractDrivetrain {
 
     @Override
     public void curvatureDrive(double speed, double rotation, boolean isQuickTurn) {
-        
+        arcadeDrive(speed, rotation);
     }
 
     public void configureAutoBuilder() {

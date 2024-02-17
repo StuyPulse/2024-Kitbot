@@ -205,7 +205,7 @@ public class Drivetrain extends AbstractDrivetrain {
             odometry::resetOdometery, // Method to reset odometry (will be called if your auto has a starting pose)
             this::getChassisSpeeds, // Current ChassisSpeeds supplier
             (ChassisSpeeds speeds) -> { // Method that will drive the robot given ChassisSpeeds
-                getInstance().arcadeDrive(speeds.vxMetersPerSecond, speeds.omegaRadiansPerSecond);
+                getInstance().arcadeDrive(speeds.vxMetersPerSecond / 3, speeds.omegaRadiansPerSecond / 2 / Math.PI);
             },
             new ReplanningConfig(), // Default path replanning config. See the API for the options here
             () -> {

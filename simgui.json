@@ -13,7 +13,7 @@
           "visible": true
         }
       },
-      "/SmartDashboard/Sim Field": {
+      "/SmartDashboard/Field": {
         "bottom": 1476,
         "height": 8.210550308227539,
         "left": 150,
@@ -28,6 +28,18 @@
   },
   "NetworkTables": {
     "transitory": {
+      "PathPlanner": {
+        "double[]##v_/PathPlanner/activePath": {
+          "open": true
+        },
+        "double[]##v_/PathPlanner/currentPose": {
+          "open": true
+        },
+        "double[]##v_/PathPlanner/targetPose": {
+          "open": true
+        },
+        "open": true
+      },
       "SmartDashboard": {
         "Sim Field": {
           "open": true
