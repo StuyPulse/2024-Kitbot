@@ -79,7 +79,7 @@ public interface Settings {
         double SPEAKER_THRESHOLD_RPM = 5700;
 
         double LAUNCHER_INTAKE_SPEED = -1;
-        double FEEDER_INTAKE_SPEED = -0.2;
+        double FEEDER_INTAKE_SPEED = 0;
 
         SmartNumber AMP_THRESHOLD_RPM = new SmartNumber("Launcher/Amp/Threshold RPM", 2250);
 
