@@ -92,8 +92,6 @@ public class RobotContainer {
     /**************/
 
     public void configureAutons() {
-        autonChooser = AutoBuilder.buildAutoChooser();
-
         SmartDashboard.putData("Autonomous", autonChooser);
     }
 
